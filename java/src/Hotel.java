@@ -24,6 +24,8 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.ArrayList;
 import java.lang.Math;
+import java.text.SimpleDateFormat;
+
 
 /**
  * This class defines a simple embedded SQL utility class that is designed to
@@ -400,9 +402,60 @@ public class Hotel {
 
 // Rest of the functions definition go in here
 
-   public static void viewHotels(Hotel esql) {}
-   public static void viewRooms(Hotel esql) {}
-   public static void bookRooms(Hotel esql) {}
+    public static void viewHotels(Hotel esql) {
+      try {
+        System.out.print("Enter latitude: ");
+        String latitudeStr = in.readLine();
+        double latitude = Double.parseDouble(latitudeStr);
+
+        System.out.print("Enter longitude: ");
+        String longitudeStr = in.readLine();
+        double longitude = Double.parseDouble(longitudeStr);
+
+        String query = "SELECT hotelID, hotelName, latitude, longitude " +
+                       "FROM Hotel " +
+                       "WHERE calculate_distance(latitude, longitude, " + latitude + ", " + longitude + ") <= 30";
+
+        int rowCount = esql.executeQuery(query);
+        System.out.println("total row(s): " + rowCount);
+    } catch (Exception e) {
+        System.err.println(e.getMessage());
+    }
+}
+
+
+   
+      public static void viewRooms(Hotel esql) {
+    try {
+        // Ask user for hotelID and date
+        System.out.print("Enter hotel ID: ");
+        String hotelID = in.readLine().trim();
+
+        System.out.print("Enter date (MM/DD/YYYY): ");
+        String dateStr = in.readLine().trim();
+
+        // Convert input date to SQL date format
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        java.util.Date date = dateFormat.parse(dateStr);
+        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+
+        // Construct the SQL query
+        String query = "SELECT Rooms.roomNumber, Rooms.price, CASE WHEN RoomBookings.bookingID IS NULL THEN 'Available' ELSE 'Booked' END AS availability " +
+                       "FROM Rooms " +
+                       "LEFT JOIN RoomBookings ON Rooms.hotelID = RoomBookings.hotelID AND Rooms.roomNumber = RoomBookings.roomNumber AND RoomBookings.bookingDate = '" + sqlDate + "' " +
+                       "WHERE Rooms.hotelID = " + hotelID +
+                       " ORDER BY Rooms.roomNumber";
+
+        // Execute the query and print the result
+        int rowCount = esql.executeQueryAndPrintResult(query);
+        System.out.println("Total row(s): " + rowCount);
+    } catch (Exception e) {
+        System.err.println(e.getMessage());
+    }
+}
+
+
+   public static void bookRooms(Hotel esql){}
    public static void viewRecentBookingsfromCustomer(Hotel esql) {}
    public static void updateRoomInfo(Hotel esql) {}
    public static void viewRecentUpdates(Hotel esql) {}
