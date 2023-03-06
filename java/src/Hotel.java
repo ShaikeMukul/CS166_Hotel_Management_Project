@@ -416,7 +416,7 @@ public class Hotel {
                        "FROM Hotel " +
                        "WHERE calculate_distance(latitude, longitude, " + latitude + ", " + longitude + ") <= 30";
 
-        int rowCount = esql.executeQuery(query);
+	int rowCount = esql.executeQueryAndPrintResult(query);
         System.out.println("total row(s): " + rowCount);
     } catch (Exception e) {
         System.err.println(e.getMessage());
