@@ -1,0 +1,440 @@
+Script started on 2023-03-07 05:18:31+00:00
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java[smuku004@class-110 java]$ cd scripts/
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java/scripts[smuku004@class-110 scripts]$ source ./x[Kcompile
+bash: ./compile: No such file or directory
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java/scripts[smuku004@class-110 scripts]$ source ./compile.sh 
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:452: error: 'catch' without 'try'
+     catch (Exception e) {
+     ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:429: error: 'try' without 'catch', 'finally' or resource declarations
+    try {
+    ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: illegal start of expression
+   public static void bookRooms(Hotel esql) {}
+   ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: illegal start of expression
+   public static void bookRooms(Hotel esql) {}
+          ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: ';' expected
+   public static void bookRooms(Hotel esql) {}
+                ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: ')' expected
+   public static void bookRooms(Hotel esql) {}
+                                     ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: illegal start of expression
+   public static void bookRooms(Hotel esql) {}
+                                          ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: ';' expected
+   public static void bookRooms(Hotel esql) {}
+                                           ^
+8 errors
+
+
+*******************************************************
+              User Interface      	               
+*******************************************************
+
+Connecting to database...Connection URL: jdbc:postgresql://localhost:1024/smuku004_DB
+
+Done
+MAIN MENU
+---------
+1. Create user
+2. Log in
+9. < EXIT
+Please make your choice: ^[[A^[[A        9
+Disconnecting from database...Done
+
+Bye !
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java/scripts[smuku004@class-110 scripts]$ vim compile.sh 
+[?2004h7[?47h[?1h=[?2004h[1;40r[?12h[?12l[29m[m[H[2J[?25l[40;1H"compile.sh" 13L, 378C[2;1H▽[6n[2;1H  [1;1H[>c]10;?]11;?[1;1H[34m#!/bin/bash[m
+[36mDIR[m=[33m"[m[35m$([m[35m [m[33mcd[m[35m [m[33m"[m[35m$([m[35m dirname [m[33m"[m[35m${BASH_SOURCE[[m[31m0[m[35m]}[m[33m"[m[35m [m[35m)[m[33m"[m[35m [m[33m&&[m[35m [m[33mpwd[m[35m [m[35m)[m[33m"
+
+export[m[36m JAVA_HOME=[m/usr/csshare/pkgs/jdk1.[31m7[m.0_17
+[33mexport[m[36m PATH=[m[35m$JAVA_HOME[m/bin:[35m$PATH[m
+
+[34m# compile the java program[m
+javac [35m-d[m [35m$DIR[m/../classes [35m$DIR[m/../src/Hotel.java
+
+[34m#run the java program
+#Use your database name, port number and login[m
+java [35m-cp[m [35m$DIR[m/../classes:[35m$DIR[m/../lib/pg73jdbc3.jar Hotel [35m$USER[m[33m"[m[31m_DB[m[33m"[m [35m$PGPORT[m [35m$USER[m
+
+[1m[34m~                                                                                                                                      [15;1H~                                                                                                                                      [16;1H~                                                                                                                                      [17;1H~                                                                                                                                      [18;1H~                                                                                                                                      [19;1H~                                                                                                                                      [20;1H~                                                                                                                                      [21;1H~                                                                                                                                      [22;1H~                                                                                                                                      [23;1H~                                                                                                                                      [24;1H~                                                                                                                                      [25;1H~                                                                                                                                      [26;1H~                                                                                                                                      [27;1H~                                                                                                                                      [28;1H~                                                                                                                                      [29;1H~                                                                                                                                      [30;1H~                                                                                                                                      [31;1H~                                                                                                                                      [32;1H~                                                                                                                                      [33;1H~                                                                                                                                      [34;1H~                                                                                                                                      [35;1H~                                                                                                                                      [36;1H~                                                                                                                                      [37;1H~                                                                                                                                      [38;1H~                                                                                                                                      [39;1H~                                                                                                                                      [m[40;118H1,1[11CAll[1;1H[?25h[29m[m[H[2J[?25l[1;1H[34m#!/bin/bash[m
+[36mDIR[m=[33m"[m[35m$([m[35m [m[33mcd[m[35m [m[33m"[m[35m$([m[35m dirname [m[33m"[m[35m${BASH_SOURCE[[m[31m0[m[35m]}[m[33m"[m[35m [m[35m)[m[33m"[m[35m [m[33m&&[m[35m [m[33mpwd[m[35m [m[35m)[m[33m"
+
+export[m[36m JAVA_HOME=[m/usr/csshare/pkgs/jdk1.[31m7[m.0_17
+[33mexport[m[36m PATH=[m[35m$JAVA_HOME[m/bin:[35m$PATH[m
+
+[34m# compile the java program[m
+javac [35m-d[m [35m$DIR[m/../classes [35m$DIR[m/../src/Hotel.java
+
+[34m#run the java program
+#Use your database name, port number and login[m
+java [35m-cp[m [35m$DIR[m/../classes:[35m$DIR[m/../lib/pg73jdbc3.jar Hotel [35m$USER[m[33m"[m[31m_DB[m[33m"[m [35m$PGPORT[m [35m$USER[m
+
+[1m[34m~                                                                                                                                      [15;1H~                                                                                                                                      [16;1H~                                                                                                                                      [17;1H~                                                                                                                                      [18;1H~                                                                                                                                      [19;1H~                                                                                                                                      [20;1H~                                                                                                                                      [21;1H~                                                                                                                                      [22;1H~                                                                                                                                      [23;1H~                                                                                                                                      [24;1H~                                                                                                                                      [25;1H~                                                                                                                                      [26;1H~                                                                                                                                      [27;1H~                                                                                                                                      [28;1H~                                                                                                                                      [29;1H~                                                                                                                                      [30;1H~                                                                                                                                      [31;1H~                                                                                                                                      [32;1H~                                                                                                                                      [33;1H~                                                                                                                                      [34;1H~                                                                                                                                      [35;1H~                                                                                                                                      [36;1H~                                                                                                                                      [37;1H~                                                                                                                                      [38;1H~                                                                                                                                      [39;1H~                                                                                                                                      [m[40;118H1,1[11CAll"compile.sh" 13L, 378C[1;1H[29m[m[H[2J[1;1H[1m[36m#!/bin/bash[m
+[1m[36mDIR[m=[1m[33m"[m[1m[34m$([m[1m[31m [m[1m[33mcd[m[1m[31m [m[1m[33m"[m[1m[34m$([m[1m[31m dirname [m[1m[33m"[m[1m[34m${BASH_SOURCE[[m[1m[35m0[m[1m[34m]}[m[1m[33m"[m[1m[31m [m[1m[34m)[m[1m[33m"[m[1m[31m [m[1m[33m&&[m[1m[31m [m[1m[33mpwd[m[1m[31m [m[1m[34m)[m[1m[33m"
+
+export[m[1m[36m JAVA_HOME=[m/usr/csshare/pkgs/jdk1.[1m[35m7[m.0_17
+[1m[33mexport[m[1m[36m PATH=[m[1m[34m$JAVA_HOME[m/bin:[1m[34m$PATH[m
+
+[1m[36m# compile the java program[m
+javac [1m[31m-d[m [1m[34m$DIR[m/../classes [1m[34m$DIR[m/../src/Hotel.java
+
+[1m[36m#run the java program
+#Use your database name, port number and login[m
+java [1m[31m-cp[m [1m[34m$DIR[m/../classes:[1m[34m$DIR[m/../lib/pg73jdbc3.jar Hotel [1m[34m$USER[m[1m[33m"[m[1m[35m_DB[m[1m[33m"[m [1m[34m$PGPORT[m [1m[34m$USER[m
+
+[1m[34m~                                                                                                                                      [15;1H~                                                                                                                                      [16;1H~                                                                                                                                      [17;1H~                                                                                                                                      [18;1H~                                                                                                                                      [19;1H~                                                                                                                                      [20;1H~                                                                                                                                      [21;1H~                                                                                                                                      [22;1H~                                                                                                                                      [23;1H~                                                                                                                                      [24;1H~                                                                                                                                      [25;1H~                                                                                                                                      [26;1H~                                                                                                                                      [27;1H~                                                                                                                                      [28;1H~                                                                                                                                      [29;1H~                                                                                                                                      [30;1H~                                                                                                                                      [31;1H~                                                                                                                                      [32;1H~                                                                                                                                      [33;1H~                                                                                                                                      [34;1H~                                                                                                                                      [35;1H~                                                                                                                                      [36;1H~                                                                                                                                      [37;1H~                                                                                                                                      [38;1H~                                                                                                                                      [39;1H~                                                                                                                                      [m[40;118H1,1[11CAll"compile.sh" 13L, 378C[1;1H[?25h[?25l[40;108H^[[1;1H[40;108H  [1;1H[40;108H^[[1;1H[40;108H  [1;1H[?25h[?25l[40;108H:[1;1H[40;1H[K[40;1H:[?2004h[?25hq[?25l[?25h[?25l[?2004l[40;1H[K[40;1H[?2004l[?1l>[?25h[2J[?47l8]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java/scripts[smuku004@class-110 scripts]$ cd [K[K[Ksource ,[K./compile.sh 
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:452: error: 'catch' without 'try'
+     catch (Exception e) {
+     ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:429: error: 'try' without 'catch', 'finally' or resource declarations
+    try {
+    ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: illegal start of expression
+   public static void bookRooms(Hotel esql) {}
+   ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: illegal start of expression
+   public static void bookRooms(Hotel esql) {}
+          ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: ';' expected
+   public static void bookRooms(Hotel esql) {}
+                ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: ')' expected
+   public static void bookRooms(Hotel esql) {}
+                                     ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: illegal start of expression
+   public static void bookRooms(Hotel esql) {}
+                                          ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: ';' expected
+   public static void bookRooms(Hotel esql) {}
+                                           ^
+8 errors
+
+
+*******************************************************
+              User Interface      	               
+*******************************************************
+
+Connecting to database...Connection URL: jdbc:postgresql://localhost:1024/smuku004_DB
+
+Done
+MAIN MENU
+---------
+1. Create user
+2. Log in
+9. < EXIT
+Please make your choice: cd  9
+Disconnecting from database...Done
+
+Bye !
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java/scripts[smuku004@class-110 scripts]$ cd ..
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java[smuku004@class-110 java]$ srftopam [K[K[K[K[K[K[K[K[Kcd src/
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java/src[smuku004@class-110 src]$ ls
+Hotel.java
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java/src[smuku004@class-110 src]$ vim Hotel.java 
+[?2004h7[?47h[?1h=[?2004h[1;40r[?12h[?12l[29m[m[H[2J[?25l[40;1H"Hotel.java" [dos] 504L, 18717C[2;1H▽[6n[2;1H  [1;1H[>c]10;?]11;?[1;9H[34m// Construct the SQL query[m[2;9HString query = [31m"SELECT Rooms.roomNumber, Rooms.price, CASE WHEN RoomBookings.bookingID IS NULL THEN 'Available' ELSE 'Booked' EE[3;1HND AS availability "[m +[4;24H[31m"FROM Rooms "[m +[5;24H[31m"LEFT JOIN RoomBookings ON Rooms.hotelID = RoomBookings.hotelID AND Rooms.roomNumber = RoomBookings.roomNumber AA[6;1HND RoomBookings.bookingDate = '"[m + sqlDate + [31m"' "[m +[7;24H[31m"WHERE Rooms.hotelID = "[m + hotelID +[8;24H[31m" ORDER BY Rooms.roomNumber"[m;[10;9H[34m// Execute the query and print the result[m[11;9H[32mint[m rowCount = esql.executeQueryAndPrintResult(query);[12;9HSystem.out.println([31m"Total row(s): "[m + rowCount);[13;6H[33mcatch[m (Exception e) {[14;9HSystem.err.println(e.getMessage());
+    }
+}[20;4H[32mpublic[m [32mstatic[m [32mvoid[m bookRooms(Hotel esql) [46m{}[m[24;4H[32mpublic[m [32mstatic[m [32mvoid[m viewRecentBookingsfromCustomer(Hotel esql) {
+    [33mtry[m {[26;9H[34m// Get the user ID of the currently logged in user[m[27;9H[32mint[m userID = esql.getCurrUser();[29;9HString query = [31m"SELECT hotelID, roomNumber, bookingDate, price "[m +[30;24H[31m"FROM RoomBookings, Rooms "[m +[31;24H[31m"WHERE RoomBookings.roomNumber = Rooms.roomNumber AND "[m +[32;30H[31m"RoomBookings.hotelID = Rooms.hotelID AND "[m +[33;30H[31m"customerID = "[m + userID +[34;24H[31m" ORDER BY bookingDate DESC "[m +[35;24H[31m"LIMIT 5"[m;[37;9HList<List<String>> results = esql.executeQueryAndReturnResult(query);[38;9H[33mif[m (results.isEmpty()) {[39;13HSystem.out.println([31m"No bookings found for current customer."[m);[40;118H459,45[8C94%[20;45H[?25h[29m[m[H[2J[?25l[1;9H[34m// Construct the SQL query[m[2;9HString query = [31m"SELECT Rooms.roomNumber, Rooms.price, CASE WHEN RoomBookings.bookingID IS NULL THEN 'Available' ELSE 'Booked' EE[3;1HND AS availability "[m +[4;24H[31m"FROM Rooms "[m +[5;24H[31m"LEFT JOIN RoomBookings ON Rooms.hotelID = RoomBookings.hotelID AND Rooms.roomNumber = RoomBookings.roomNumber AA[6;1HND RoomBookings.bookingDate = '"[m + sqlDate + [31m"' "[m +[7;24H[31m"WHERE Rooms.hotelID = "[m + hotelID +[8;24H[31m" ORDER BY Rooms.roomNumber"[m;[10;9H[34m// Execute the query and print the result[m[11;9H[32mint[m rowCount = esql.executeQueryAndPrintResult(query);[12;9HSystem.out.println([31m"Total row(s): "[m + rowCount);[13;6H[33mcatch[m (Exception e) {[14;9HSystem.err.println(e.getMessage());
+    }
+}[20;4H[32mpublic[m [32mstatic[m [32mvoid[m bookRooms(Hotel esql) [46m{}[m[24;4H[32mpublic[m [32mstatic[m [32mvoid[m viewRecentBookingsfromCustomer(Hotel esql) {
+    [33mtry[m {[26;9H[34m// Get the user ID of the currently logged in user[m[27;9H[32mint[m userID = esql.getCurrUser();[29;9HString query = [31m"SELECT hotelID, roomNumber, bookingDate, price "[m +[30;24H[31m"FROM RoomBookings, Rooms "[m +[31;24H[31m"WHERE RoomBookings.roomNumber = Rooms.roomNumber AND "[m +[32;30H[31m"RoomBookings.hotelID = Rooms.hotelID AND "[m +[33;30H[31m"customerID = "[m + userID +[34;24H[31m" ORDER BY bookingDate DESC "[m +[35;24H[31m"LIMIT 5"[m;[37;9HList<List<String>> results = esql.executeQueryAndReturnResult(query);[38;9H[33mif[m (results.isEmpty()) {[39;13HSystem.out.println([31m"No bookings found for current customer."[m);[40;118H459,45[8C94%"Hotel.java" [dos] 504L, 18717C[20;45H[29m[m[H[2J[1;9H[1m[36m// Construct the SQL query[m[2;9HString query = [1m[35m"SELECT Rooms.roomNumber, Rooms.price, CASE WHEN RoomBookings.bookingID IS NULL THEN 'Available' ELSE 'Booked' EE[3;1HND AS availability "[m +[4;24H[1m[35m"FROM Rooms "[m +[5;24H[1m[35m"LEFT JOIN RoomBookings ON Rooms.hotelID = RoomBookings.hotelID AND Rooms.roomNumber = RoomBookings.roomNumber AA[6;1HND RoomBookings.bookingDate = '"[m + sqlDate + [1m[35m"' "[m +[7;24H[1m[35m"WHERE Rooms.hotelID = "[m + hotelID +[8;24H[1m[35m" ORDER BY Rooms.roomNumber"[m;[10;9H[1m[36m// Execute the query and print the result[m[11;9H[1m[32mint[m rowCount = esql.executeQueryAndPrintResult(query);[12;9HSystem.out.println([1m[35m"Total row(s): "[m + rowCount);[13;6H[1m[33mcatch[m (Exception e) {[14;9HSystem.err.println(e.getMessage());
+    }
+}[20;4H[1m[32mpublic[m [1m[32mstatic[m [1m[32mvoid[m bookRooms(Hotel esql) [46m{}[m[24;4H[1m[32mpublic[m [1m[32mstatic[m [1m[32mvoid[m viewRecentBookingsfromCustomer(Hotel esql) {
+    [1m[33mtry[m {[26;9H[1m[36m// Get the user ID of the currently logged in user[m[27;9H[1m[32mint[m userID = esql.getCurrUser();[29;9HString query = [1m[35m"SELECT hotelID, roomNumber, bookingDate, price "[m +[30;24H[1m[35m"FROM RoomBookings, Rooms "[m +[31;24H[1m[35m"WHERE RoomBookings.roomNumber = Rooms.roomNumber AND "[m +[32;30H[1m[35m"RoomBookings.hotelID = Rooms.hotelID AND "[m +[33;30H[1m[35m"customerID = "[m + userID +[34;24H[1m[35m" ORDER BY bookingDate DESC "[m +[35;24H[1m[35m"LIMIT 5"[m;[37;9HList<List<String>> results = esql.executeQueryAndReturnResult(query);[38;9H[1m[33mif[m (results.isEmpty()) {[39;13HSystem.out.println([1m[35m"No bookings found for current customer."[m);[40;118H459,45[8C94%"Hotel.java" [dos] 504L, 18717C[20;45H[?25h[?25l[40;108H~@k[20;45H[40;108H   [19;3H[20;45H{}[40;120H8,3 [19;3H[?25h[?25l[40;108H~@k[19;3H[40;108H   [18;1H[40;120H7,0-1[18;1H[?25h[?25l[40;108H~@k[18;1H[40;108H   [17;1H[40;120H6[17;1H[?25h[?25l[40;108H~@k[17;1H[40;108H   [16;1H[40;120H5,1  [16;1H[?25h[?25l[40;108Hi[16;1H[40;108H [16;1H[40;1H[1m-- INSERT --[m[40;14H[K[40;118H455,1[9C94%[16;1H[?25h[?25lw}[40;122H2[16;2H[?25h[?25l}[16;2H[K[40;122H1[16;1H[?25h[?25l[40;120H6[17;1H[?25h[?25l[40;120H7[18;1H[?25h[?25l[40;120H8[19;1H[?25h[?25l[40;120H9[20;1H[?25h[?25l[40;119H60[21;1H[?25h[?25l[40;122H2[21;2H[?25h[40;1H[K[21;1H[?25l[40;108H^[[21;1H[40;108H  [21;2H[40;118H460,1[9C94%[21;1H[?25h[?25l[40;108H:[21;1H[40;108H[K[40;1H:[?2004h[?25hw[?25l[?25hq[?25l[?25h![?25l[?25h[?25l[?2004l"Hotel.java" [dos] 504L, 18717C written
+[?2004l[?1l>[?25h[2J[?47l8]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java/src[smuku004@class-110 src]$ cd ..
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java[smuku004@class-110 java]$ cd ..vim Hotel.java ls[Kcd src/[2P..source ./compile.sh [5Pvim [C[C[C[C[C[C[C[C[C[C[C[4h     [4lsource ./[C[C[C[C[C[C[C[C[C[C[C[K[5Pcd scripts/[7Pexitsource ./stopPostgreDB.sh exit[Kcd scripts/
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java/scripts[smuku004@class-110 scripts]$ cd scripts/..[Kvim Hotel.java ls[Kcd src/[2P..source ./compile.sh 
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:452: error: 'catch' without 'try'
+     catch (Exception e) {
+     ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:429: error: 'try' without 'catch', 'finally' or resource declarations
+    try {
+    ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: illegal start of expression
+   public static void bookRooms(Hotel esql) {}
+   ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: illegal start of expression
+   public static void bookRooms(Hotel esql) {}
+          ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: ';' expected
+   public static void bookRooms(Hotel esql) {}
+                ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: ')' expected
+   public static void bookRooms(Hotel esql) {}
+                                     ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: illegal start of expression
+   public static void bookRooms(Hotel esql) {}
+                                          ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: ';' expected
+   public static void bookRooms(Hotel esql) {}
+                                           ^
+8 errors
+
+
+*******************************************************
+              User Interface      	               
+*******************************************************
+
+Connecting to database...Connection URL: jdbc:postgresql://localhost:1024/smuku004_DB
+
+Done
+MAIN MENU
+---------
+1. Create user
+2. Log in
+9. < EXIT
+Please make your choice: cd  9
+Disconnecting from database...Done
+
+Bye !
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java/scripts[smuku004@class-110 scripts]$ cd ..
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java[smuku004@class-110 java]$ ls
+[0m[01;34mclasses[0m  [01;34mlib[0m  [01;34mscripts[0m  [01;34msrc[0m  typescript
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java[smuku004@class-110 java]$ cd ..
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project[smuku004@class-110 CS166_Hotel_Management_Project]$ cd ..
+]0;smuku004@class-110:/extra/smuku004[smuku004@class-110 smuku004]$ cd lab05
+]0;smuku004@class-110:/extra/smuku004/lab05[smuku004@class-110 lab05]$ source ./stopPostgreDB.sh 
+waiting for server to shut down.... done
+server stopped
+]0;smuku004@class-110:/extra/smuku004/lab05[smuku004@class-110 lab05]$ source ./stopPostgreDB.sh [K[K[K[K[K[K[K[K[K[K[K[K[K[K[KartPostgreSQL.sh 
+/tmp/smuku004
+The files belonging to this database system will be owned by user "smuku004".
+This user must also own the server process.
+
+The database cluster will be initialized with locale "en_US.UTF-8".
+The default database encoding has accordingly been set to "UTF8".
+The default text search configuration will be set to "english".
+
+Data page checksums are disabled.
+
+fixing permissions on existing directory /tmp/smuku004/myDB/data ... ok
+creating subdirectories ... ok
+selecting default max_connections ... 100
+selecting default shared_buffers ... 128MB
+selecting default timezone ... UTC
+selecting dynamic shared memory implementation ... posix
+creating configuration files ... ok
+running bootstrap script ... ok
+performing post-bootstrap initialization ... ok
+syncing data to disk ... ok
+
+WARNING: enabling "trust" authentication for local connections
+You can change this by editing pg_hba.conf or using the option -A, or
+--auth-local and --auth-host, the next time you run initdb.
+
+Success. You can now start the database server using:
+
+    pg_ctl -D /tmp/smuku004/myDB/data -l logfile start
+
+waiting for server to start.... done
+server started
+]0;smuku004@class-110:/extra/smuku004/lab05[smuku004@class-110 lab05]$ source ./startPostgreSQL.sh [K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[KcreatePostgreDB.sh 
+creating db named ... smuku004_DB
+pg_ctl: server is running (PID: 518806)
+/usr/bin/postgres "-D" "/tmp/smuku004/myDB/data" "-c" "unix_socket_directories=/tmp/smuku004/myDB/sockets" "-p" "1024"
+]0;smuku004@class-110:/extra/smuku004/lab05[smuku004@class-110 lab05]$ cd ..
+]0;smuku004@class-110:/extra/smuku004[smuku004@class-110 smuku004]$ ld CS166_Hotel_Management_Project/
+CS166_Hotel_Management_Project/: file not recognized: Is a directory
+]0;smuku004@class-110:/extra/smuku004[smuku004@class-110 smuku004]$ ls
+[0m[01;34mCS166_Hotel_Management_Project[0m  [01;34mlab05[0m  [01;34mlab06[0m  [01;34mlab07[0m  [01;34mneeded_files[0m  [01;31mproject.zip[0m
+]0;smuku004@class-110:/extra/smuku004[smuku004@class-110 smuku004]$ cd CS166_Hotel_Management_Project/
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project[smuku004@class-110 CS166_Hotel_Management_Project]$ cd data/
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/data[smuku004@class-110 data]$ cp *.csv /tmp/$USER/myDB/data
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/data[smuku004@class-110 data]$ cd ..
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project[smuku004@class-110 CS166_Hotel_Management_Project]$ cd sql/
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/sql[smuku004@class-110 sql]$ cd s[Kscripts/
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/sql/scripts[smuku004@class-110 scripts]$ ls
+create_db.sh
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/sql/scripts[smuku004@class-110 scripts]$ cd [K[K[Ksource ./create_db.sh 
+NOTICE:  table "hotel" does not exist, skipping
+DROP TABLE
+NOTICE:  table "rooms" does not exist, skipping
+DROP TABLE
+NOTICE:  table "users" does not exist, skipping
+DROP TABLE
+NOTICE:  table "maintenancecompany" does not exist, skipping
+DROP TABLE
+NOTICE:  table "roombookings" does not exist, skipping
+DROP TABLE
+NOTICE:  table "roomrepairs" does not exist, skipping
+DROP TABLE
+NOTICE:  table "roomrepairrequests" does not exist, skipping
+DROP TABLE
+NOTICE:  table "roomupdateslog" does not exist, skipping
+DROP TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE FUNCTION
+COPY 100
+ALTER SEQUENCE
+COPY 20
+COPY 200
+COPY 5
+COPY 500
+ALTER SEQUENCE
+COPY 10
+ALTER SEQUENCE
+COPY 10
+ALTER SEQUENCE
+COPY 50
+ALTER SEQUENCE
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/sql/scripts[smuku004@class-110 scripts]$ cd ..
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/sql[smuku004@class-110 sql]$ cd ..
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project[smuku004@class-110 CS166_Hotel_Management_Project]$ ls
+[0m[01;34mdata[0m  [01;34mjava[0m  README.md  [01;34msql[0m
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project[smuku004@class-110 CS166_Hotel_Management_Project]$ cd java/
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java[smuku004@class-110 java]$ cd com[K[K[Kscripts/
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java/scripts[smuku004@class-110 scripts]$ ls
+compile.sh
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java/scripts[smuku004@class-110 scripts]$ source ./compile.sh 
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:452: error: 'catch' without 'try'
+     catch (Exception e) {
+     ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:429: error: 'try' without 'catch', 'finally' or resource declarations
+    try {
+    ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: illegal start of expression
+   public static void bookRooms(Hotel esql) {}
+   ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: illegal start of expression
+   public static void bookRooms(Hotel esql) {}
+          ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: ';' expected
+   public static void bookRooms(Hotel esql) {}
+                ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: ')' expected
+   public static void bookRooms(Hotel esql) {}
+                                     ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: illegal start of expression
+   public static void bookRooms(Hotel esql) {}
+                                          ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: ';' expected
+   public static void bookRooms(Hotel esql) {}
+                                           ^
+8 errors
+
+
+*******************************************************
+              User Interface      	               
+*******************************************************
+
+Connecting to database...Connection URL: jdbc:postgresql://localhost:1024/smuku004_DB
+
+Done
+MAIN MENU
+---------
+1. Create user
+2. Log in
+9. < EXIT
+Please make your choice: cd  9
+Disconnecting from database...Done
+
+Bye !
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java/scripts[smuku004@class-110 scripts]$ cd ..
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java[smuku004@class-110 java]$ ls
+[0m[01;34mclasses[0m  [01;34mlib[0m  [01;34mscripts[0m  [01;34msrc[0m  typescript
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java[smuku004@class-110 java]$ ls
+[0m[01;34mclasses[0m  [01;34mlib[0m  [01;34mscripts[0m  [01;34msrc[0m  typescript
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java[smuku004@class-110 java]$ ls
+[0m[01;34mclasses[0m  [01;34mlib[0m  [01;34mscripts[0m  [01;34msrc[0m  typescript
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java[smuku004@class-110 java]$ cd y[Kty[K[K[K[K[Kcd src/
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java/src[smuku004@class-110 src]$ ls
+Hotel.java
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java/src[smuku004@class-110 src]$ c[Kvim Hotel.java 
+[?2004h7[?47h[?1h=[?2004h[1;40r[?12h[?12l[29m[m[H[2J[?25l[40;1H"Hotel.java" [dos] 504L, 18717C[2;1H▽[6n[2;1H  [1;1H[>c]10;?]11;?[1;9HString query = [31m"SELECT Rooms.roomNumber, Rooms.price, CASE WHEN RoomBookings.bookingID IS NULL THEN 'Available' ELSE 'Booked' EE[2;1HND AS availability "[m +[3;24H[31m"FROM Rooms "[m +[4;24H[31m"LEFT JOIN RoomBookings ON Rooms.hotelID = RoomBookings.hotelID AND Rooms.roomNumber = RoomBookings.roomNumber AA[5;1HND RoomBookings.bookingDate = '"[m + sqlDate + [31m"' "[m +[6;24H[31m"WHERE Rooms.hotelID = "[m + hotelID +[7;24H[31m" ORDER BY Rooms.roomNumber"[m;[9;9H[34m// Execute the query and print the result[m[10;9H[32mint[m rowCount = esql.executeQueryAndPrintResult(query);[11;9HSystem.out.println([31m"Total row(s): "[m + rowCount);[12;6H[33mcatch[m (Exception e) {[13;9HSystem.err.println(e.getMessage());
+    }
+}[19;4H[32mpublic[m [32mstatic[m [32mvoid[m bookRooms(Hotel esql) {}[23;4H[32mpublic[m [32mstatic[m [32mvoid[m viewRecentBookingsfromCustomer(Hotel esql) {
+    [33mtry[m {[25;9H[34m// Get the user ID of the currently logged in user[m[26;9H[32mint[m userID = esql.getCurrUser();[28;9HString query = [31m"SELECT hotelID, roomNumber, bookingDate, price "[m +[29;24H[31m"FROM RoomBookings, Rooms "[m +[30;24H[31m"WHERE RoomBookings.roomNumber = Rooms.roomNumber AND "[m +[31;30H[31m"RoomBookings.hotelID = Rooms.hotelID AND "[m +[32;30H[31m"customerID = "[m + userID +[33;24H[31m" ORDER BY bookingDate DESC "[m +[34;24H[31m"LIMIT 5"[m;[36;9HList<List<String>> results = esql.executeQueryAndReturnResult(query);[37;9H[33mif[m (results.isEmpty()) {[38;13HSystem.out.println([31m"No bookings found for current customer."[m);[39;9H} [33melse[m {[40;118H460,1[9C94%[20;1H[?25h[29m[m[H[2J[?25l[1;9HString query = [31m"SELECT Rooms.roomNumber, Rooms.price, CASE WHEN RoomBookings.bookingID IS NULL THEN 'Available' ELSE 'Booked' EE[2;1HND AS availability "[m +[3;24H[31m"FROM Rooms "[m +[4;24H[31m"LEFT JOIN RoomBookings ON Rooms.hotelID = RoomBookings.hotelID AND Rooms.roomNumber = RoomBookings.roomNumber AA[5;1HND RoomBookings.bookingDate = '"[m + sqlDate + [31m"' "[m +[6;24H[31m"WHERE Rooms.hotelID = "[m + hotelID +[7;24H[31m" ORDER BY Rooms.roomNumber"[m;[9;9H[34m// Execute the query and print the result[m[10;9H[32mint[m rowCount = esql.executeQueryAndPrintResult(query);[11;9HSystem.out.println([31m"Total row(s): "[m + rowCount);[12;6H[33mcatch[m (Exception e) {[13;9HSystem.err.println(e.getMessage());
+    }
+}[19;4H[32mpublic[m [32mstatic[m [32mvoid[m bookRooms(Hotel esql) {}[23;4H[32mpublic[m [32mstatic[m [32mvoid[m viewRecentBookingsfromCustomer(Hotel esql) {
+    [33mtry[m {[25;9H[34m// Get the user ID of the currently logged in user[m[26;9H[32mint[m userID = esql.getCurrUser();[28;9HString query = [31m"SELECT hotelID, roomNumber, bookingDate, price "[m +[29;24H[31m"FROM RoomBookings, Rooms "[m +[30;24H[31m"WHERE RoomBookings.roomNumber = Rooms.roomNumber AND "[m +[31;30H[31m"RoomBookings.hotelID = Rooms.hotelID AND "[m +[32;30H[31m"customerID = "[m + userID +[33;24H[31m" ORDER BY bookingDate DESC "[m +[34;24H[31m"LIMIT 5"[m;[36;9HList<List<String>> results = esql.executeQueryAndReturnResult(query);[37;9H[33mif[m (results.isEmpty()) {[38;13HSystem.out.println([31m"No bookings found for current customer."[m);[39;9H} [33melse[m {[40;118H460,1[9C94%"Hotel.java" [dos] 504L, 18717C[20;1H[29m[m[H[2J[1;9HString query = [1m[35m"SELECT Rooms.roomNumber, Rooms.price, CASE WHEN RoomBookings.bookingID IS NULL THEN 'Available' ELSE 'Booked' EE[2;1HND AS availability "[m +[3;24H[1m[35m"FROM Rooms "[m +[4;24H[1m[35m"LEFT JOIN RoomBookings ON Rooms.hotelID = RoomBookings.hotelID AND Rooms.roomNumber = RoomBookings.roomNumber AA[5;1HND RoomBookings.bookingDate = '"[m + sqlDate + [1m[35m"' "[m +[6;24H[1m[35m"WHERE Rooms.hotelID = "[m + hotelID +[7;24H[1m[35m" ORDER BY Rooms.roomNumber"[m;[9;9H[1m[36m// Execute the query and print the result[m[10;9H[1m[32mint[m rowCount = esql.executeQueryAndPrintResult(query);[11;9HSystem.out.println([1m[35m"Total row(s): "[m + rowCount);[12;6H[1m[33mcatch[m (Exception e) {[13;9HSystem.err.println(e.getMessage());
+    }
+}[19;4H[1m[32mpublic[m [1m[32mstatic[m [1m[32mvoid[m bookRooms(Hotel esql) {}[23;4H[1m[32mpublic[m [1m[32mstatic[m [1m[32mvoid[m viewRecentBookingsfromCustomer(Hotel esql) {
+    [1m[33mtry[m {[25;9H[1m[36m// Get the user ID of the currently logged in user[m[26;9H[1m[32mint[m userID = esql.getCurrUser();[28;9HString query = [1m[35m"SELECT hotelID, roomNumber, bookingDate, price "[m +[29;24H[1m[35m"FROM RoomBookings, Rooms "[m +[30;24H[1m[35m"WHERE RoomBookings.roomNumber = Rooms.roomNumber AND "[m +[31;30H[1m[35m"RoomBookings.hotelID = Rooms.hotelID AND "[m +[32;30H[1m[35m"customerID = "[m + userID +[33;24H[1m[35m" ORDER BY bookingDate DESC "[m +[34;24H[1m[35m"LIMIT 5"[m;[36;9HList<List<String>> results = esql.executeQueryAndReturnResult(query);[37;9H[1m[33mif[m (results.isEmpty()) {[38;13HSystem.out.println([1m[35m"No bookings found for current customer."[m);[39;9H} [1m[33melse[m {[40;118H460,1[9C94%"Hotel.java" [dos] 504L, 18717C[20;1H[?25h[?25l[40;108H~@k[20;1H[40;108H   [21;1H[40;120H1,0-1[21;1H[?25h[?25l[40;108H~@k[21;1H[40;108H   [22;1H[40;120H2[22;1H[?25h[?25l[40;108H~@k[22;1H[40;108H   [23;1H[40;120H3,1  [23;1H[?25h[?25l[40;108H~@k[23;1H[40;108H   [24;1H[40;120H4[24;1H[?25h[?25l[40;108H~@k[24;1H[40;108H   [25;1H[40;120H5[25;1H[?25h[?25l[40;108H~@k[25;1H[40;108H   [26;1H[40;120H6[26;1H[?25h[?25l[40;108H~@k[26;1H[40;108H   [27;1H[40;120H7,0-1[27;1H[?25h[?25l[40;108H~@k[27;1H[40;108H   [28;1H[40;120H8,1  [28;1H[?25h[?25l[40;108H~@k[28;1H[40;108H   [29;1H[40;120H9[29;1H[?25h[?25l[40;108H~@k[29;1H[40;108H   [30;1H[40;119H70[30;1H[?25h[?25l[40;108H~@k[30;1H[40;108H   [31;1H[40;120H1[31;1H[?25h[?25l[40;108H~@k[31;1H[40;108H   [32;1H[40;120H2[32;1H[?25h[?25l[40;108H~@k[32;1H[40;108H   [33;1H[40;120H3[33;1H[?25h[?25l[40;108H~@k[33;1H[40;108H   [34;1H[40;120H4[34;1H[?25h[?25l[40;108H~@k[34;1H[40;108H   [33;1H[1;39r[1;1H[2M[1;40r[38;13HSystem.out.println([1m[35m"Recent bookings for current customer:"[m);[39;13HSystem.out.println([1m[35m"-----------------------------------------------------"[m);[40;1H[K[40;118H475,0-1[7C95%[33;1H[?25h[?25l[40;108H~@k[33;1H[40;108H   [34;1H[40;120H6,1  [34;1H[?25h[?25l[40;108H~@k[34;1H[40;108H   [34;1H[1;39r[39;1H
+[1;40r[39;13HSystem.out.printf([1m[35m"| %-10s | %-10s | %-15s | %-10s |[m[1m[31m\n[m[1m[35m"[m, [1m[35m"hotelID"[m, [1m[35m"roomNumber"[m, [1m[35m"bookingDate"[m, [1m[35m"price"[m);[40;118H[K[40;118H477,1[9C95%[34;1H[?25h[?25l[40;108H~@k[34;1H[40;108H   [33;1H[1;39r[1;1H[2M[1;40r[38;13HSystem.out.println([1m[35m"-----------------------------------------------------"[m);[39;13H[1m[33mfor[m (List<String> row : results) {[40;118H[K[40;118H478,1[9C95%[33;1H[?25h[?25l[40;108H~@k[33;1H[40;108H   [34;1H[40;120H9[34;1H[?25h[?25l[40;108H~@k[34;1H[40;108H   [34;1H[1;39r[39;1H
+[1;40r[39;17HSystem.out.printf([1m[35m"| %-10s | %-10s | %-15s | %-10s |[m[1m[31m\n[m[1m[35m"[m, row.get([1m[35m0[m), row.get([1m[35m1[m), row.get([1m[35m2[m), row.get([1m[35m3[m));[40;118H[K[40;118H480,1[9C95%[34;1H[?25h[?25l[40;108H~@k[34;1H[40;108H   [34;1H[1;39r[39;1H
+[1;40r[39;13H}[40;118H[K[40;118H481,1[9C96%[34;1H[?25h[?25l[40;108H~@k[34;1H[40;108H   [34;1H[1;39r[39;1H
+[1;40r[39;13HSystem.out.println([1m[35m"-----------------------------------------------------"[m);[40;118H[K[40;118H482,1[9C96%[34;1H[?25h[?25l[40;108H~@k[34;1H[40;108H   [34;1H[1;39r[39;1H
+[1;40r[39;9H}[40;118H[K[40;118H483,1[9C96%[34;1H[?25h[?25l[40;108H~@k[34;1H[40;108H   [34;1H[1;39r[39;1H
+[1;40r[39;5H} [1m[33mcatch[m (Exception e) {[40;118H[K[40;118H484,1[9C96%[34;1H[?25h[?25l[40;108H~@k[34;1H[40;108H   [34;1H[1;39r[39;1H
+[1;40r[39;9HSystem.err.println(e.getMessage());[40;118H[K[40;118H485,1[9C96%[34;1H[?25h[?25l[40;108H~@k[34;1H[40;108H   [34;1H[1;39r[39;1H
+[1;40r[39;5H}[40;118H[K[40;118H486,1[9C97%[34;1H[?25h[?25l[40;108H~@k[34;1H[40;108H   [34;1H[1;39r[39;1H
+[1;40r[39;1H}[40;118H[K[40;118H487,1[9C97%[34;1H[?25h[?25l[40;108H~@k[34;1H[40;108H   [34;1H[1;39r[39;1H
+[1;40r[40;118H[K[40;118H488,1[9C97%[34;1H[?25h[?25l[40;108H~@k[34;1H[40;108H   [34;1H[1;39r[39;1H
+[1;40r[40;118H[K[40;118H489,1[9C97%[34;1H[?25h[?25l[40;108H~@k[34;1H[40;108H   [34;1H[1;39r[39;1H
+[1;40r[40;118H[K[40;118H490,1[9C98%[34;1H[?25h[?25l[40;108H~@k[34;1H[40;108H   [34;1H[1;39r[39;1H
+[1;40r[39;4H[1m[32mpublic[m [1m[32mstatic[m [1m[32mvoid[m updateRoomInfo(Hotel esql) {}[40;118H[K[40;118H491,1[9C98%[34;1H[?25h[?25l[40;108H~@k[34;1H[40;108H   [34;1H[1;39r[39;1H
+[1;40r[5;66H[46m{[34;1H}[m[39;4H[1m[32mpublic[m [1m[32mstatic[m [1m[32mvoid[m viewRecentUpdates(Hotel esql) {}[40;118H[K[40;118H492,1[9C98%[34;1H[?25h[?25l[40;108H~@k[34;1H[40;108H   [34;1H[1;39r[39;1H
+[1;40r[4;66H{[33;1H}[39;4H[1m[32mpublic[m [1m[32mstatic[m [1m[32mvoid[m viewBookingHistoryofHotel(Hotel esql) {}[40;118H[K[40;118H493,0-1[7C98%[34;1H[?25h[?25l[40;108H~@k[34;1H[40;108H   [33;1H[4;66H[46m{[33;1H}[m[40;120H2,1  [33;1H[?25h[?25l[40;108H~@k[33;1H[40;108H   [32;1H[4;66H{[33;1H}[40;120H1[32;1H[?25h[?25l[40;108H~@k[32;1H[40;108H   [31;1H[40;120H0[31;1H[?25h[?25l[40;108H~@k[31;1H[40;108H   [30;1H[40;119H89[30;1H[?25h[?25l[40;108H~@k[30;1H[40;108H   [29;1H[40;120H8[29;1H[?25h[?25l[40;108H~@k[29;1H[40;108H   [28;1H[40;120H7[28;1H[?25h[?25l[40;108H~@k[28;1H[40;108H   [27;1H[40;120H6[27;1H[?25h[?25l[40;108H~@k[27;1H[40;108H   [26;1H[40;120H5[26;1H[?25h[?25l[40;108H~@k[26;1H[40;108H   [25;1H[40;120H4[25;1H[?25h[?25l[40;108H~@k[25;1H[40;108H   [24;1H[40;120H3[24;1H[?25h[?25l[40;108H~@k[24;1H[40;108H   [23;1H[40;120H2[23;1H[?25h[?25l[40;108H~@k[23;1H[40;108H   [22;1H[40;120H1[22;1H[?25h[?25l[40;108H~@k[22;1H[40;108H   [21;1H[40;120H0[21;1H[?25h[?25l[40;108H~@k[21;1H[40;108H   [20;1H[40;119H79[20;1H[?25h[?25l[40;108H~@k[20;1H[40;108H   [19;1H[40;120H8[19;1H[?25h[?25l[40;108H~@k[19;1H[40;108H   [18;1H[40;120H7[18;1H[?25h[?25l[40;108H~@k[18;1H[40;108H   [17;1H[40;120H6[17;1H[?25h[?25l[40;108H~@k[17;1H[40;108H   [16;1H[40;120H5,0-1[16;1H[?25h[?25l[40;108H~@k[16;1H[40;108H   [15;1H[40;120H4,1  [15;1H[?25h[?25l[40;108H~@k[15;1H[40;108H   [14;1H[40;120H3[14;1H[?25h[?25l[40;108H~@k[14;1H[40;108H   [13;1H[40;120H2[13;1H[?25h[?25l[40;108H~@k[13;1H[40;108H   [12;1H[40;120H1[12;1H[?25h[?25l[40;108H~@k[12;1H[40;108H   [11;1H[40;120H0[11;1H[?25h[?25l[40;108H~@k[11;1H[40;108H   [10;1H[40;119H69[10;1H[?25h[?25l[40;108H~@k[10;1H[40;108H   [9;1H[40;120H8[9;1H[?25h[?25l[40;108H~@k[9;1H[40;108H   [8;1H[40;120H7,0-1[8;1H[?25h[?25l[40;108H~@k[8;1H[40;108H   [7;1H[40;120H6,1  [7;1H[?25h[?25l[40;108H~@k[7;1H[40;108H   [6;1H[40;120H5[6;1H[?25h[?25l[40;108H~@k[6;1H[40;108H   [6;1H[1;39r[1;1H[L[1;40r[1;4H[1m[32mpublic[m [1m[32mstatic[m [1m[32mvoid[m bookRooms(Hotel esql) {}[40;118H[K[40;118H464,1[9C98%[6;1H[?25h[?25l[40;108H~@k[6;1H[40;108H   [6;1H[1;39r[1;1H[L[1;40r[40;118H[K[40;118H463,1[9C98%[6;1H[?25h[?25l[40;108H~@k[6;1H[40;108H   [6;1H[1;39r[1;1H[L[1;40r[40;118H[K[40;118H462,0-1[7C98%[6;1H[?25h[?25l[40;108H~@k[6;1H[40;108H   [6;1H[1;39r[1;1H[L[1;40r[40;118H[K[40;118H461,0-1[7C97%[6;1H[?25h[?25l[40;108H~@k[6;1H[40;108H   [6;1H[1;39r[1;1H[L[1;40r[1;1H}[40;118H[K[40;118H460,1[9C97%[6;1H[?25h[?25l[40;108H~@k[6;1H[40;108H   [6;1H[1;39r[1;1H[L[1;40r[1;5H}[40;118H[K[40;118H459,1[9C97%[6;1H[?25h[?25l[40;108H~@k[6;1H[40;108H   [6;1H[1;39r[1;1H[L[1;40r[1;9HSystem.err.println(e.getMessage());[40;118H[K[40;118H458,1[9C97%[6;1H[?25h[?25l[40;108H~@k[6;1H[40;108H   [6;1H[1;39r[1;1H[L[1;40r[1;6H[1m[33mcatch[m (Exception e) {[40;118H[K[40;118H457,0-1[7C96%[6;1H[?25h[?25l[40;108H~@k[6;1H[40;108H   [6;1H[1;39r[1;1H[L[1;40r[1;9HSystem.out.println([1m[35m"Total row(s): "[m + rowCount);[40;118H[K[40;118H456,0-1[7C96%[6;1H[?25h[?25l[40;108H~@k[6;1H[40;108H   [6;1H[1;39r[1;1H[L[1;40r[1;9H[1m[32mint[m rowCount = esql.executeQueryAndPrintResult(query);[40;118H[K[40;118H455,1[9C96%[6;1H[?25h[?25l[40;108H~@k[6;1H[40;108H   [6;1H[1;39r[1;1H[L[1;40r[1;9H[1m[36m// Execute the query and print the result[m[40;118H[K[40;118H454,1[9C96%[6;1H[?25h[?25l[40;108H~@k[6;1H[40;108H   [6;1H[1;39r[1;1H[L[1;40r[40;118H[K[40;118H453,1[9C96%[6;1H[?25h[?25l[40;108H~@k[6;1H[40;108H   [6;1H[1;39r[1;1H[L[1;40r[1;24H[1m[35m" ORDER BY Rooms.roomNumber"[m;[40;118H[K[40;118H452,1[9C95%[6;1H[?25h[?25l[40;108H~@k[6;1H[40;108H   [6;1H[1;39r[1;1H[L[1;40r[1;24H[1m[35m"WHERE Rooms.hotelID = "[m + hotelID +[40;118H[K[40;118H451,1[9C95%[6;1H[?25h[?25l[40;108H~@k[6;1H[40;108H   [7;1H[1;39r[1;1H[2L[1;40r[1;24H[1m[35m"LEFT JOIN RoomBookings ON Rooms.hotelID = RoomBookings.hotelID AND Rooms.roomNumber = RoomBookings.roomNumber AA[2;1HND RoomBookings.bookingDate = '"[m + sqlDate + [1m[35m"' "[m +[40;118H[K[40;118H450,1[9C95%[7;1H[?25h[?25l[40;108H~@k[7;1H[40;108H   [8;1H[40;120H1[8;1H[?25h[?25l[40;108H~@k[8;1H[40;108H   [9;1H[40;120H2[9;1H[?25h[?25l[40;108H~@k[9;1H[40;108H   [10;1H[40;120H3[10;1H[?25h[?25l[40;108H~@k[10;1H[40;108H   [11;1H[40;120H4[11;1H[?25h[?25l[40;108H~@k[11;1H[40;108H   [12;1H[40;120H5[12;1H[?25h[?25l[40;108H~@k[12;1H[40;108H   [13;1H[40;120H6,0-1[13;1H[?25h[?25l[40;108H~@k[13;1H[40;108H   [14;1H[40;120H7[14;1H[?25h[?25l[40;108H~@k[14;1H[40;108H   [15;1H[40;120H8,1  [15;1H[?25h[?25l[40;108H~@k[15;1H[40;108H   [15;2H[40;122H2[15;2H[?25h[?25l[40;108H~@k[15;2H[40;108H   [15;3H[40;122H3[15;3H[?25h[?25l[40;108H~@k[15;3H[40;108H   [15;3H[?25h[?25l[40;108H~@k[15;3H[40;108H   [15;3H[?25h[?25l[40;108H~@k[15;3H[40;108H   [15;3H[?25h[?25l[40;108H~@k[15;3H[40;108H   [15;3H[?25h[?25l[40;108H~@k[15;3H[40;108H   [15;3H[?25h[?25l[40;108H~@k[15;3H[40;108H   [15;3H[?25h[?25l[40;108H~@k[15;3H[40;108H   [15;3H[?25h[?25l[40;108H~@k[15;3H[40;108H   [15;3H[?25h[?25l[40;108H~@k[15;3H[40;108H   [15;3H[?25h[?25l[40;108H~@k[15;3H[40;108H   [15;3H[?25h[?25l[40;108H~@k[15;3H[40;108H   [15;3H[?25h[?25l[40;108H~@k[15;3H[40;108H   [15;3H[?25h[?25l[40;108H~@k[15;3H[40;108H   [15;3H[?25h[?25l[40;108H~@k[15;3H[40;108H   [15;3H[?25h[?25l[40;108H~@k[15;3H[40;108H   [15;3H[?25h[?25l[40;108H~@k[15;3H[40;108H   [15;3H[?25h[?25l[40;108H~@k[15;3H[40;108H   [15;3H[?25h[?25l[40;108H~@k[15;3H[40;108H   [15;3H[?25h[?25l[40;108H~@k[15;3H[40;108H   [16;3H[40;120H9[16;3H[?25h[?25l[40;108Hi[16;3H[40;108H [16;3H[40;1H[1m-- INSERT --[m[40;118H[K[40;118H459,3[9C95%[16;3H[?25h[?25l[40;122H4[16;4H[?25h[?25l[40;122H5[16;5H[?25h[?25l[40;122H6[16;6H[?25h[?25l[40;122H7[16;7H[?25h[?25l[40;122H8[16;8H[?25h[?25l[40;122H9[16;9H[?25h[?25l[40;122H10[16;10H[?25h[?25l[40;123H1[16;11H[?25h[?25l[40;123H2[16;12H[?25h[?25l[40;123H3[16;13H[?25h[?25l[40;123H4[16;14H[?25h[?25l[40;123H5[16;15H[?25h[?25l[40;123H6[16;16H[?25h[?25l[40;123H7[16;17H[?25h[?25l[40;123H8[16;18H[?25h[?25l[40;123H9[16;19H[?25h[?25l[40;122H20[16;20H[?25h[?25l[40;123H1[16;21H[?25h[?25l[40;123H2[16;22H[?25h[?25l[40;123H3[16;23H[?25h[?25l[40;123H4[16;24H[?25h[?25l[40;123H5[16;25H[?25h[?25l[40;123H6[16;26H[?25h[?25l[40;123H7[16;27H[?25h[?25l[40;123H8[16;28H[?25h[?25l[40;123H9[16;29H[?25h[?25l[40;122H30[16;30H[?25h[?25l[40;123H1[16;31H[?25h[?25ls[46m([10C)[m[40;123H2[16;32H[?25h[?25l[40;123H3[16;33H[?25h[?25l([10C)[40;123H4[16;34H[?25h[?25l[40;123H5[16;35H[?25h[?25l[40;123H6[16;36H[?25h[?25l[40;123H7[16;37H[?25h[?25l[40;123H8[16;38H[?25h[?25l[40;123H9[16;39H[?25h[?25l[40;122H40[16;40H[?25h[?25l[40;123H1[16;41H[?25h[?25l[40;123H2[16;42H[?25h[?25l[16;32H[46m([10C)[m[40;123H3[16;43H[?25h[?25l[40;123H4[16;44H[?25h[?25l[16;32H([10C) [46m{}[m[40;123H5[16;45H[?25h[?25l[40;123H6[16;46H[?25h[?25l[46m [m} [46m}[m[40;123H7[16;47H[?25h[40;1H[K[16;46H[?25l[40;108H^[[16;46H[40;108H  [16;47H{ }[40;118H459,46[8C95%[16;46H[?25h[?25l[40;108H:[16;46H[40;108H[K[40;1H:[?2004h[?25hw[?25l[?25h[?25l"Hotel.java" [dos] 504L, 18718C written[16;46H[40;118H459,46[8C95%[40;118H[K[40;118H459,46[8C95%[16;46H[?25h[?25l[40;108H:[16;46H[40;1H[K[40;1H:[?2004h[?25hw[?25l[?25h[?25l"Hotel.java" [dos] 504L, 18718C written[16;46H[40;118H459,46[8C95%[40;118H[K[40;118H459,46[8C95%[16;46H[?25h[?25l[40;108H:[16;46H[40;1H[K[40;1H:[?2004h[?25hq[?25l[?25h![?25l[?25h[?25l[?2004l[40;1H[K[40;1H[?2004l[?1l>[?25h[2J[?47l8]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java/src[smuku004@class-110 src]$ cd ..
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java[smuku004@class-110 java]$ scr[K[K[Kcd scripts/
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java/scripts[smuku004@class-110 scripts]$ ls
+compile.sh
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java/scripts[smuku004@class-110 scripts]$ source ./compile.sh 
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:452: error: 'catch' without 'try'
+     catch (Exception e) {
+     ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:429: error: 'try' without 'catch', 'finally' or resource declarations
+    try {
+    ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: illegal start of expression
+   public static void bookRooms(Hotel esql) { }
+   ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: illegal start of expression
+   public static void bookRooms(Hotel esql) { }
+          ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: ';' expected
+   public static void bookRooms(Hotel esql) { }
+                ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: ')' expected
+   public static void bookRooms(Hotel esql) { }
+                                     ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: illegal start of expression
+   public static void bookRooms(Hotel esql) { }
+                                          ^
+/extra/smuku004/CS166_Hotel_Management_Project/java/scripts/../src/Hotel.java:459: error: ';' expected
+   public static void bookRooms(Hotel esql) { }
+                                           ^
+8 errors
+
+
+*******************************************************
+              User Interface      	               
+*******************************************************
+
+Connecting to database...Connection URL: jdbc:postgresql://localhost:1024/smuku004_DB
+
+Done
+MAIN MENU
+---------
+1. Create user
+2. Log in
+9. < EXIT
+Please make your choice: cd ..
+Your input is invalid!
+Please make your choice: 9
+Disconnecting from database...Done
+
+Bye !
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java/scripts[smuku004@class-110 scripts]$ cd ..
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java[smuku004@class-110 java]$ ls
+[0m[01;34mclasses[0m  [01;34mlib[0m  [01;34mscripts[0m  [01;34msrc[0m  typescript
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project/java[smuku004@class-110 java]$ cd ..
+]0;smuku004@class-110:/extra/smuku004/CS166_Hotel_Management_Project[smuku004@class-110 CS166_Hotel_Management_Project]$ cd ..
+]0;smuku004@class-110:/extra/smuku004[smuku004@class-110 smuku004]$ lab05clab05dlab05 lab05[C[C[C[C[C
+]0;smuku004@class-110:/extra/smuku004/lab05[smuku004@class-110 lab05]$ source ,.[K[K./stopPostgreDB.sh 
+waiting for server to shut down.... done
+server stopped
+]0;smuku004@class-110:/extra/smuku004/lab05[smuku004@class-110 lab05]$ exit
+exit
+
+Script done on 2023-03-07 05:36:06+00:00

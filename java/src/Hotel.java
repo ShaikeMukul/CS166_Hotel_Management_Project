@@ -41,6 +41,7 @@ public class Hotel {
    // This variable can be global for convenience.
    static BufferedReader in = new BufferedReader(
                                 new InputStreamReader(System.in));
+   static String curruserID;
 
    /**
     * Creates a new instance of Hotel 
@@ -391,8 +392,9 @@ public class Hotel {
 
          String query = String.format("SELECT * FROM USERS WHERE userID = '%s' AND password = '%s'", userID, password);
          int userNum = esql.executeQuery(query);
-         if (userNum > 0)
-            return userID;
+         if (userNum > 0){
+            curruserID = userID;
+            return userID;}
          return null;
       }catch(Exception e){
          System.err.println (e.getMessage ());
@@ -455,8 +457,117 @@ public class Hotel {
 }
 
 
-   public static void bookRooms(Hotel esql){}
-   public static void viewRecentBookingsfromCustomer(Hotel esql) {}
+   public static void bookRooms(Hotel esql) {
+    try {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+
+        // Generate a new booking ID
+        int bookingID = esql.executeQueryNoPrint("SELECT nextval('roombookings_bookingid_seq');");
+        System.out.println("\tBooking ID generated: " + Integer.toString(bookingID));
+
+        // Ask the user for the hotel ID
+        System.out.print("\tEnter Hotel ID: ");
+        String hotelID = in.readLine();
+
+        // Check if the hotel ID is valid
+        int rows = esql.executeQueryNoPrint("SELECT hotelID FROM Hotel WHERE hotelID = " + hotelID + ";");
+        while (rows == 0) {
+            System.out.print("\tInvalid Hotel ID. Enter hotel ID: ");
+            hotelID = in.readLine();
+            rows = esql.executeQueryNoPrint("SELECT hotelID FROM Hotel WHERE hotelID = " + hotelID + ";");
+        }
+
+        // Ask the user for the room number
+        System.out.print("\tEnter Room Number: ");
+        String roomNumber = in.readLine();
+
+        // Check if the room number is valid for the given hotel ID
+        rows = 0;
+        rows = esql.executeQueryNoPrint("SELECT roomNumber FROM Rooms WHERE roomNumber = " + roomNumber + " AND hotelID = " + hotelID + ";");
+        while (rows == 0) {
+            System.out.print("\tInvalid Room No. Enter Room no: ");
+            roomNumber = in.readLine();
+            rows = esql.executeQueryNoPrint("SELECT roomNumber FROM Rooms WHERE roomNumber = " + roomNumber + " AND hotelID = " + hotelID + ";");
+        }
+
+        // Ask the user for the customer's name
+        System.out.print("\tEnter Customer's Name: ");
+        String name = in.readLine();
+
+        // Check if the customer name is valid
+        rows = 0;
+        rows = esql.executeQueryNoPrint("SELECT * FROM Users WHERE name = '" + name + "';");
+        while (rows == 0) {
+            System.out.print("\tInvalid Name. Enter Customer's Name: ");
+            name = in.readLine();
+            rows = esql.executeQueryNoPrint("SELECT * FROM Users WHERE name = '" + name + "';");
+        }
+
+        // Get the customer ID
+        String customerID = esql.executeQueryReturnData("SELECT userID FROM Users WHERE name = '" + name + "';");
+
+        // Ask the user for the booking date
+        System.out.print("\tEnter Date of Booking (mm/dd/yyyy): ");
+        String bookingDate = in.readLine();
+
+        // Check if the booking date is valid
+        while (bookingDate.length() != 10 || bookingDate.charAt(2) != '/' || bookingDate.charAt(5) != '/') {
+            System.out.print("\tInvalid date format. Enter (mm/dd/yyyy): ");
+            bookingDate = in.readLine();
+        }
+
+        // Ask the user for the booking price
+        System.out.print("\tEnter price of booking: ");
+        String price = in.readLine();
+
+        // Insert the new booking into the RoomBookings table
+        String query = "INSERT INTO RoomBookings (bookingID, customerID, hotelID, roomNumber, bookingDate, price) " +
+                       "VALUES (" + bookingID + ", " + customerID + ", " + hotelID + ", " + roomNumber + ", '" + bookingDate + "', " + price + ");";
+        esql.executeUpdate(query);
+
+        System.out.println("Room booked successfully. The room price is " + price);
+    } catch (Exception e){
+         System.err.println (e.getMessage());
+      }
+       
+   }
+   
+   
+
+
+   public static void viewRecentBookingsfromCustomer(Hotel esql) {
+    try {
+        // Get the user ID of the currently logged in user
+        String userID = curruserID;
+
+        String query = "SELECT RoomBookings.hotelID, Rooms.roomNumber, RoomBookings.bookingDate, Rooms.price " +
+                       "FROM RoomBookings, Rooms " +
+                       "WHERE RoomBookings.roomNumber = Rooms.roomNumber AND " +
+                             "RoomBookings.hotelID = Rooms.hotelID AND " +
+                             "customerID = " + userID +
+                       " ORDER BY bookingDate DESC " +
+                       "LIMIT 5";
+
+        List<List<String>> results = esql.executeQueryAndReturnResult(query);
+        if (results.isEmpty()) {
+            System.out.println("No bookings found for current customer.");
+        } else {
+            System.out.println("Recent bookings for current customer:");
+            System.out.println("-----------------------------------------------------");
+            System.out.printf("| %-10s | %-10s | %-15s | %-10s |\n", "hotelID", "roomNumber", "bookingDate", "price");
+            System.out.println("-----------------------------------------------------");
+            for (List<String> row : results) {
+                System.out.printf("| %-10s | %-10s | %-15s | %-10s |\n", row.get(0), row.get(1), row.get(2), row.get(3));
+            }
+            System.out.println("-----------------------------------------------------");
+        }
+    } catch (Exception e) {
+        System.err.println(e.getMessage());
+    }
+}
+
+
+
    public static void updateRoomInfo(Hotel esql) {}
    public static void viewRecentUpdates(Hotel esql) {}
    public static void viewBookingHistoryofHotel(Hotel esql) {}
