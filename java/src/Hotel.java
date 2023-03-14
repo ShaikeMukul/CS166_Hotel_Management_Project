@@ -495,7 +495,7 @@ public static void bookRooms(Hotel esql) {
         // Check if the booking date is valid
         while (true) {
             try {
-                DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                DateFormat dateFormat = new SimpleDateFormat("mm/dd/yyyy");
                 Date date = dateFormat.parse(bookingDate);
                 break;
             } catch (ParseException e) {
@@ -510,10 +510,11 @@ public static void bookRooms(Hotel esql) {
 
         // Display the price of the booked room
         System.out.println("The room price is $" + price);
-
+        System.out.println("userid$" + curruserID);
+         
         // Insert the new booking into the RoomBookings table
         String query = "INSERT INTO RoomBookings (customerID, hotelID, roomNumber, bookingDate) " +
-                       "VALUES ((SELECT userID FROM Users WHERE name = '" + curruserID + "'), " + hotelID + ", " + roomNumber + ", '" + bookingDate + "');";
+                       "VALUES ('" + curruserID + "', ' " + hotelID + " ', ' " + roomNumber + " ', '" + bookingDate + "');";
         esql.executeUpdate(query);
 
         System.out.println("Room booked successfully.");
@@ -559,11 +560,10 @@ public static void bookRooms(Hotel esql) {
 
    public static void updateRoomInfo(Hotel esql) {
     try {
-         System.out.println("curruserID: " + curruserID);
+         System.out.println("User ID: " + curruserID);
          String userTypeQuery = "SELECT userType FROM Users WHERE userID = " + curruserID + ";";
          List<List<String>> userTypeResult = esql.executeQueryAndReturnResult(userTypeQuery);
-         System.out.println("userTypeResult: " + userTypeResult +);
-         if (userTypeResult.isEmpty() || !userTypeResult.get(0).get(0).equals("manager")) {
+         if (userTypeResult.isEmpty() || !userTypeResult.get(0).get(0).trim().equals("manager")) {
             System.out.println("Only managers can access this option.");
             return;
          }
