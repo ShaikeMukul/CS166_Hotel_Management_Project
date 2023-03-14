@@ -510,7 +510,6 @@ public static void bookRooms(Hotel esql) {
 
         // Display the price of the booked room
         System.out.println("The room price is $" + price);
-        System.out.println("userid$" + curruserID);
          
         // Insert the new booking into the RoomBookings table
         String query = "INSERT INTO RoomBookings (customerID, hotelID, roomNumber, bookingDate) " +
