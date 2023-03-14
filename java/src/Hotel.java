@@ -25,6 +25,10 @@ import java.util.List;
 import java.util.ArrayList;
 import java.lang.Math;
 import java.text.SimpleDateFormat;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Date;
+
 
 
 /**
@@ -455,11 +459,69 @@ public class Hotel {
         System.err.println(e.getMessage());
     }
 }
-
-
-   public static void bookRooms(Hotel esql) { }
    
-   
+public static void bookRooms(Hotel esql) {
+    try {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+
+        // Generate a new booking ID
+        String bookingID = esql.executeQueryAndReturnResult("SELECT nextval('roombookings_bookingid_seq');").get(0).get(0);
+        System.out.println("\tBooking ID generated: " + bookingID);
+
+        // Ask the user for the hotel ID
+        System.out.print("\tEnter Hotel ID: ");
+        String hotelID = in.readLine();
+
+        // Check if the hotel ID is valid
+        while (esql.executeQueryAndPrintResult("SELECT hotelID FROM Hotel WHERE hotelID = " + hotelID + ";") == 0) {
+            System.out.print("\tInvalid Hotel ID. Enter hotel ID: ");
+            hotelID = in.readLine();
+        }
+
+        // Ask the user for the room number
+        System.out.print("\tEnter Room Number: ");
+        String roomNumber = in.readLine();
+
+        // Check if the room number is valid for the given hotel ID
+        while (esql.executeQueryAndPrintResult("SELECT hotelID FROM Rooms WHERE hotelID = " + hotelID + " AND roomNumber = " + roomNumber + ";") == 0) {
+            System.out.print("\tInvalid Room No. Enter Room no: ");
+            roomNumber = in.readLine();
+        }
+
+        // Ask the user for the booking date
+        System.out.print("\tEnter Date of Booking (mm/dd/yyyy): ");
+        String bookingDate = in.readLine();
+
+        // Check if the booking date is valid
+        while (true) {
+            try {
+                DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                Date date = dateFormat.parse(bookingDate);
+                break;
+            } catch (ParseException e) {
+                System.out.print("\tInvalid date format. Enter (mm/dd/yyyy): ");
+                bookingDate = in.readLine();
+            }
+        }
+
+        // Retrieve the price of the room from the Rooms table
+        String queryPrice = "SELECT price FROM Rooms WHERE roomNumber = " + roomNumber + " AND hotelID = " + hotelID + ";";
+        String price = esql.executeQueryAndReturnResult(queryPrice).get(0).get(0);
+
+        // Display the price of the booked room
+        System.out.println("The room price is $" + price);
+
+        // Insert the new booking into the RoomBookings table
+        String query = "INSERT INTO RoomBookings (customerID, hotelID, roomNumber, bookingDate) " +
+                       "VALUES ((SELECT userID FROM Users WHERE name = '" + curruserID + "'), " + hotelID + ", " + roomNumber + ", '" + bookingDate + "');";
+        esql.executeUpdate(query);
+
+        System.out.println("Room booked successfully.");
+    } catch (Exception e){
+        System.err.println(e.getMessage());
+    }
+}
+
 
 
    public static void viewRecentBookingsfromCustomer(Hotel esql) {
@@ -495,7 +557,63 @@ public class Hotel {
 
 
 
-   public static void updateRoomInfo(Hotel esql) {}
+   public static void updateRoomInfo(Hotel esql) {
+    try {
+         System.out.println("curruserID: " + curruserID);
+         String userTypeQuery = "SELECT userType FROM Users WHERE userID = " + curruserID + ";";
+         List<List<String>> userTypeResult = esql.executeQueryAndReturnResult(userTypeQuery);
+         System.out.println("userTypeResult: " + userTypeResult +);
+         if (userTypeResult.isEmpty() || !userTypeResult.get(0).get(0).equals("manager")) {
+            System.out.println("Only managers can access this option.");
+            return;
+         }
+
+        // Get the user ID of the logged in manager
+        String managerID = curruserID;
+
+        // Ask for the hotel ID and room number to update
+        System.out.print("Enter hotel ID: ");
+        int hotelID = Integer.parseInt(in.readLine());
+        System.out.print("Enter room number: ");
+        int roomNumber = Integer.parseInt(in.readLine());
+
+        // Check if the manager manages the specified hotel
+        String checkManagerQuery = "SELECT * FROM Hotel WHERE hotelID = " + hotelID + " AND managerUserID = " + managerID + ";";
+        int numRows = esql.executeQuery(checkManagerQuery);
+        if (numRows == 0) {
+            System.out.println("You don't manage the specified hotel.");
+            return;
+        }
+
+        // Get the current room information
+        String getRoomQuery = "SELECT * FROM Rooms WHERE hotelID = " + hotelID + " AND roomNumber = " + roomNumber + ";";
+        List<List<String>> roomResult = esql.executeQueryAndReturnResult(getRoomQuery);
+        if (roomResult.isEmpty()) {
+            System.out.println("Room not found.");
+            return;
+        }
+        List<String> room = roomResult.get(0);
+
+        // Ask for the new room information
+        System.out.print("Enter new price: ");
+        int price = Integer.parseInt(in.readLine());
+        System.out.print("Enter new image URL: ");
+        String imageURL = in.readLine();
+
+        // Update the Rooms table
+        String updateRoomQuery = "UPDATE Rooms SET price = " + price + ", imageURL = '" + imageURL + "' WHERE hotelID = " + hotelID + " AND roomNumber = " + roomNumber + ";";
+        esql.executeUpdate(updateRoomQuery);
+
+        // Log the room update in the RoomUpdatesLog table
+        String logUpdateQuery = "INSERT INTO RoomUpdatesLog (managerID, hotelID, roomNumber, updatedOn) VALUES (" + managerID + ", " + hotelID + ", " + roomNumber + ", NOW());";
+        esql.executeUpdate(logUpdateQuery);
+
+        System.out.println("Room information updated successfully.");
+    } catch (Exception e) {
+        System.err.println(e.getMessage());
+    }
+}
+
    public static void viewRecentUpdates(Hotel esql) {}
    public static void viewBookingHistoryofHotel(Hotel esql) {}
    public static void viewRegularCustomers(Hotel esql) {}
