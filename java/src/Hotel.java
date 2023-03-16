@@ -30,7 +30,6 @@ import java.text.ParseException;
 import java.util.Date;
 
 
-
 /**
  * This class defines a simple embedded SQL utility class that is designed to
  * work with PostgreSQL JDBC drivers.
@@ -240,7 +239,7 @@ public class Hotel {
          // ignored.
       }//end try
    }//end cleanup
-
+   
    /**
     * The main execution method
     *
@@ -336,6 +335,26 @@ public class Hotel {
       }//end try
    }//end main
 
+  public static String getDate()
+   {
+        String bookingDate;
+        
+        // Check if the booking date is valid
+        do {
+	        // Ask the user for the booking date
+	   System.out.print("\tEnter Date of Booking (mm/dd/yyyy): ");
+           try {
+		bookingDate = in.readLine();
+                DateFormat dateFormat = new SimpleDateFormat("mm/dd/yyyy");
+                Date date = dateFormat.parse(bookingDate);
+                break;
+            } catch (Exception e) {
+                System.out.print("\tInvalid date format. Enter (mm/dd/yyyy): ");
+                continue;
+	    }
+        }while(true);
+        return bookingDate;
+   }
    public static void Greeting(){
       System.out.println(
          "\n\n*******************************************************\n" +
@@ -362,7 +381,7 @@ public class Hotel {
       }while (true);
       return input;
    }//end readChoice
-
+  
    /*
     * Creates a new user
     **/
@@ -611,13 +630,111 @@ public static void bookRooms(Hotel esql) {
     } catch (Exception e) {
         System.err.println(e.getMessage());
     }
-}
+   }
 
-   public static void viewRecentUpdates(Hotel esql) {}
-   public static void viewBookingHistoryofHotel(Hotel esql) {}
-   public static void viewRegularCustomers(Hotel esql) {}
-   public static void placeRoomRepairRequests(Hotel esql) {}
-   public static void viewRoomRepairHistory(Hotel esql) {}
+   public static void viewRecentUpdates(Hotel esql) 
+   {
+      try{
+	   String query = "SELECT * FROM RoomUpdatesLog";
+	   
+           int rowCount = esql.executeQueryAndPrintResult(query);
+           System.out.println("Total row(s): " + rowCount);
+           
+      }catch(Exception e){
+          System.err.println (e.getMessage ());
+      }
+
+   }
+   
+   public static void viewBookingHistoryofHotel(Hotel esql) 
+   {
+      try{
+	   System.out.print("Enter hotel ID: ");
+           int hotelID = Integer.parseInt(in.readLine());
+           String query = "SELECT * FROM RoomBookings WHERE hotelID = " + hotelID ;
+           int rowCount = esql.executeQueryAndPrintResult(query);
+           System.out.println("Total row(s): " + rowCount);
+
+      }catch(Exception e){
+         System.err.println (e.getMessage ());
+      }
+
+   }
+   
+   public static void viewRegularCustomers(Hotel esql) 
+   {
+      try{
+	   System.out.print("Enter hotel ID: ");
+           int hotelID = Integer.parseInt(in.readLine());
+       
+           // Check if the manager manages the specified hotel
+           String checkManagerQuery = "SELECT * FROM Hotel WHERE hotelID = " + hotelID + " AND managerUserID = " + curruserID + ";";
+           int numRows = esql.executeQuery(checkManagerQuery);
+           if (numRows == 0) {
+              System.out.println("You don't manage the specified hotel.");
+              return;
+           }
+           System.out.print("past check manager\n");
+           String query = "SELECT customerID, COUNT(customerID) FROM RoomBookings GROUP BY customerID ORDER BY COUNT(*) desc limit 5";
+	   System.out.print("start execute\n");
+	   int rowCount = esql.executeQueryAndPrintResult(query);
+           
+	   System.out.println("Total row(s): " + rowCount);
+
+      }catch(Exception e){
+         System.err.println (e.getMessage ());
+      }
+
+   }
+   
+   public static void placeRoomRepairRequests(Hotel esql) 
+   {
+      try{
+
+            // Ask for the hotel ID, room, companyID, DATE
+            System.out.print("Enter hotel ID: ");
+            int hotelID = Integer.parseInt(in.readLine());
+            System.out.print("Enter room number: ");
+            int roomNumber = Integer.parseInt(in.readLine());
+            System.out.print("Enter maintenance company ID: ");
+	    int companyID = Integer.parseInt(in.readLine());
+	    String repairDate = getDate();
+            
+	    // INSERT INTO RoomRepairs table
+            String query = "INSERT INTO RoomRepairs ( companyID, hotelID, roomNumber, repairDate) "
+		   + "VALUES (" + companyID + ", " + hotelID + ", " + roomNumber + ", '" + repairDate + "')";
+	    esql.executeUpdate(query);
+ 
+    	    // Retrieve repairID to INSERT to RoomRepairRequests
+            String queryRepairID = "SELECT repairID FROM RoomRepairs " 
+		    + "WHERE companyID = " + companyID + " AND hotelID = " + hotelID + " AND roomNumber = " + roomNumber;
+            int repairID = esql.executeQueryAndPrintResult(queryRepairID);
+   
+	    // Insert user(manageID) and repair ID  into the RoomRepairRequests table
+        
+	    query = "INSERT INTO RoomRepairRequests (managerID, repairID) " +
+                       "VALUES (" + curruserID + ", " + repairID + ")";
+     	    esql.executeUpdate(query);
+       
+      }catch(Exception e){
+         System.err.println (e.getMessage ());
+      }
+   }
+
+   public static void viewRoomRepairHistory(Hotel esql) 
+    {
+       try{
+	
+	String query = "SELECT companyID, hotelID, roomNumber, repairDate FROM RoomRepairs WHERE  RoomRepairs.repairID IN (SELECT repairID FROM RoomRepairRequests WHERE managerID = " + curruserID + ")";
+	int rowCount = esql.executeQueryAndPrintResult(query);
+        System.out.println("Total row(s): " + rowCount);
+         
+      }catch(Exception e){
+         System.err.println (e.getMessage ());
+      }
+   }
+
 
 }//end Hotel
+
 
