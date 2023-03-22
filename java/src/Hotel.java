@@ -28,6 +28,8 @@ import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 /**
@@ -45,6 +47,7 @@ public class Hotel {
    static BufferedReader in = new BufferedReader(
                                 new InputStreamReader(System.in));
    static String curruserID;
+   static String curruserType;
 
    /**
     * Creates a new instance of Hotel 
@@ -284,40 +287,60 @@ public class Hotel {
             }//end switch
             if (authorisedUser != null) {
               boolean usermenu = true;
-              while(usermenu) {
+              while(usermenu) 
+	      { 
+		System.out.println("curruserType:" + curruserType + ":\n");
                 System.out.println("MAIN MENU");
                 System.out.println("---------");
                 System.out.println("1. View Hotels within 30 units");
                 System.out.println("2. View Rooms");
                 System.out.println("3. Book a Room");
                 System.out.println("4. View recent booking history");
-
-                //the following functionalities basically used by managers
-                System.out.println("5. Update Room Information");
-                System.out.println("6. View 5 recent Room Updates Info");
-                System.out.println("7. View booking history of the hotel");
-                System.out.println("8. View 5 regular Customers");
-                System.out.println("9. Place room repair Request to a company");
-                System.out.println("10. View room repair Requests history");
-
+		if(curruserType.equals("manager"))
+		{
+                  //the following functionalities basically used by managers
+                  System.out.println("5. Update Room Information");
+                  System.out.println("6. View 5 recent Room Updates Info");
+                  System.out.println("7. View booking history of the hotel");
+                  System.out.println("8. View 5 regular Customers");
+                  System.out.println("9. Place room repair Request to a company");
+                  System.out.println("10. View room repair Requests history");
+                }
                 System.out.println(".........................");
                 System.out.println("20. Log out");
-                switch (readChoice()){
-                   case 1: viewHotels(esql); break;
-                   case 2: viewRooms(esql); break;
-                   case 3: bookRooms(esql); break;
-                   case 4: viewRecentBookingsfromCustomer(esql); break;
-                   case 5: updateRoomInfo(esql); break;
-                   case 6: viewRecentUpdates(esql); break;
-                   case 7: viewBookingHistoryofHotel(esql); break;
-                   case 8: viewRegularCustomers(esql); break;
-                   case 9: placeRoomRepairRequests(esql); break;
-                   case 10: viewRoomRepairHistory(esql); break;
-                   case 20: usermenu = false; break;
-                   default : System.out.println("Unrecognized choice!"); break;
+                
+		if(curruserType.equals("customer"))
+		{
+		  switch(readChoice())
+		  {
+		    case 1: viewHotels(esql); break;
+                    case 2: viewRooms(esql); break;
+                    case 3: bookRooms(esql); break;
+                    case 4: viewRecentBookingsfromCustomer(esql); break;
+		    case 20: usermenu = false; break;
+                    default : System.out.println("Unrecognized choice!"); break;
+		  }
+
+		}
+		else
+		{//manager
+		  switch (readChoice())
+		  {
+                    case 1: viewHotels(esql); break;
+                    case 2: viewRooms(esql); break;
+                    case 3: bookRooms(esql); break;
+                    case 4: viewRecentBookingsfromCustomer(esql); break;
+                    case 5: updateRoomInfo(esql); break;
+                    case 6: viewRecentUpdates(esql); break;
+                    case 7: viewBookingHistoryofHotel(esql); break;
+                    case 8: viewRegularCustomers(esql); break;
+                    case 9: placeRoomRepairRequests(esql); break;
+                    case 10: viewRoomRepairHistory(esql); break;
+                    case 20: usermenu = false; break;
+                    default : System.out.println("Unrecognized choice!"); break;
+                  }
                 }
-              }
-            }
+            } }
          }//end while
       }catch(Exception e) {
          System.err.println (e.getMessage ());
@@ -396,6 +419,8 @@ public class Hotel {
          String query = String.format("SELECT * FROM USERS WHERE userID = '%s' AND password = '%s'", userID, password);
          int userNum = esql.executeQuery(query);
          if (userNum > 0){
+            query = String.format("SELECT userType FROM USERS WHERE userID = '%s'", userID);
+            curruserType = esql.executeQueryAndReturnResult(query).get(0).get(0).trim();
             curruserID = userID;
             return userID;}
          return null;
@@ -772,11 +797,9 @@ public static void viewHotels(Hotel esql) {
             // Ask for the hotel ID, room, companyID, DATE
             //System.out.print("Enter hotel ID: ");
             int hotelID = isHotelManager(esql);
-            System.out.print("Enter room number: ");
-            int roomNumber = Integer.parseInt(in.readLine());
-            System.out.print("Enter maintenance company ID: ");
-	    int companyID = Integer.parseInt(in.readLine());
-	    String repairDate = getDate();
+            int roomNumber = validRoom(esql, hotelID);
+	    int companyID = validCompany(esql);
+	    String repairDate = promptDate();
             
 	    // INSERT INTO RoomRepairs table
             String query = "INSERT INTO RoomRepairs ( companyID, hotelID, roomNumber, repairDate) "
@@ -843,29 +866,84 @@ public static void viewHotels(Hotel esql) {
         }while(true);
   }
 
-   public static String getDate()
+   public static String promptDate()
    {
-        String bookingDate;
+        String inputDate;
+	Date currDate = new Date();
 
-        // Check if the booking date is valid
+	System.out.println("current date: " + currDate + "\n");
         do {
-                // Ask the user for the booking date
-           System.out.print("\tEnter Date of Booking (mm/dd/yyyy): ");
-           try {
-                bookingDate = in.readLine();
-                DateFormat dateFormat = new SimpleDateFormat("mm/dd/yyyy");
-                Date date = dateFormat.parse(bookingDate);
-                break;
-            } catch (Exception e) {
-               System.out.print("\tInvalid date format. Enter (mm/dd/yyyy): ");
+             try{   // Ask the user for the booking date
+                  System.out.print("\tEnter Date (mm/dd/yyyy): ");
+              
+                  inputDate = in.readLine().trim();
+                  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+                  LocalDate formattedDate = LocalDate.parse(inputDate, formatter);
+		  if(formattedDate.isBefore(LocalDate.now()))
+		  {
+                    System.out.print("\t The date you entered is not valid. Please enter a date that has not yet passed.  \n");
+                    continue;
+		  }
+		  else
+                    break;
+             }catch (Exception e) {
+                System.err.println(e.getMessage());
                 continue;
+             }
+        }while(true);
+        return inputDate;
+   }
+
+   public static int validRoom(Hotel esql, int hotelID)
+   {
+	   int roomNumber;
+	do{    
+	    try{
+		 System.out.print("Enter room number: ");
+                 roomNumber = Integer.parseInt( in.readLine());
+
+                 // Get the current room information
+                 String getRoomQuery = "SELECT * FROM Rooms WHERE hotelID = " + hotelID + " AND roomNumber = " + roomNumber + ";";
+                 List < List < String >> roomResult = esql.executeQueryAndReturnResult(getRoomQuery);
+                 if (roomResult.isEmpty()) 
+		 {
+                    System.out.println("Room not found.");
+		    continue;
+                 }
+		 else 
+	            return roomNumber;
+	    } catch ( Exception e){
+		System.err.println(e.getMessage());
+	    }
+	}while(true);
+   }  
+
+   public static int validCompany(Hotel esql)
+   {
+           int companyID;
+        do{
+            try{
+                 System.out.print("Enter Company ID: ");
+                 companyID = Integer.parseInt( in.readLine());
+
+                 // Get the current room information
+                 String getCompanyQuery = "SELECT * FROM MaintenanceCompany WHERE CompanyID = " + companyID + ";";
+                 List < List < String >> roomResult = esql.executeQueryAndReturnResult(getCompanyQuery);
+                 if (roomResult.isEmpty())
+                 {
+                    System.out.println("Room not found.");
+                    continue;
+                 }
+                 else
+                    return companyID;
+            } catch ( Exception e){
+                System.err.println(e.getMessage());
             }
         }while(true);
-        return bookingDate;
    }
 
   
-/*============== END HELPER FUNC ==========================*/
+   /*============== END HELPER FUNC ==========================*/
 
 
 }//end Hotel
