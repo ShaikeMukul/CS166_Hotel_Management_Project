@@ -830,8 +830,6 @@ public static void viewHotels(Hotel esql) {
        try{
 	
 	String query = "SELECT companyID, hotelID, roomNumber, repairDate FROM RoomRepairs WHERE  RoomRepairs.repairID IN (SELECT repairID FROM RoomRepairRequests WHERE managerID = " + curruserID + ")";
-	int rowCount = esql.executeQueryAndPrintResult(query);
-        System.out.println("Total row(s): " + rowCount);
         
         List < List < String >> results = esql.executeQueryAndReturnResult(query);
         if (results.isEmpty()) 
