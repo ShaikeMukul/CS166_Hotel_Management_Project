@@ -289,7 +289,6 @@ public class Hotel {
               boolean usermenu = true;
               while(usermenu) 
 	      { 
-		System.out.println("curruserType:" + curruserType + ":\n");
                 System.out.println("MAIN MENU");
                 System.out.println("---------");
                 System.out.println("1. View Hotels within 30 units");
@@ -430,8 +429,8 @@ public class Hotel {
       }
    }//end
 
-// Rest of the functions definition go in here
-public static void viewHotels(Hotel esql) {
+   // Rest of the functions definition go in here
+   public static void viewHotels(Hotel esql) {
         try {
             System.out.print("Enter latitude: ");
             String latitudeStr = in .readLine();
@@ -457,47 +456,49 @@ public static void viewHotels(Hotel esql) {
             System.out.println("Total row(s): " + results.size());
         } catch (Exception e) {
             System.err.println(e.getMessage());
+          }
+   }
+
+   public static void viewRooms(Hotel esql) {
+     try {
+        // Ask user for hotelID and date
+        System.out.print("Enter hotel ID: ");
+        String hotelID = in.readLine().trim();
+
+        System.out.print("Enter date (mm/dd/yyyy): ");
+        String dateStr = in.readLine().trim();
+
+        // Convert input date to LocalDate object
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        LocalDate date = LocalDate.parse(dateStr, formatter);
+
+        // Check if booking date is in the past
+        if (date.isBefore(LocalDate.now())) {
+            System.out.println("Sorry, you can only view rooms for today or future dates.");
+            return;
         }
-    }
 
-    public static void viewRooms(Hotel esql) {
-        try {
-            // Ask user for hotelID and date
-            System.out.print("Enter hotel ID: ");
-            String hotelID = in .readLine().trim();
+        // Construct the SQL query
+        String query = "SELECT Rooms.roomNumber, Rooms.price, CASE WHEN RoomBookings.bookingID IS NULL THEN 'Available' ELSE 'Booked' END AS availability " +
+            "FROM Rooms " +
+            "LEFT JOIN RoomBookings ON Rooms.hotelID = RoomBookings.hotelID AND Rooms.roomNumber = RoomBookings.roomNumber AND RoomBookings.bookingDate = '" + date + "' " +
+            "WHERE Rooms.hotelID = " + hotelID +
+            " ORDER BY Rooms.roomNumber";
 
-            System.out.print("Enter date (mm/dd/yyyy): ");
-            String dateStr = in .readLine().trim();
+        // Execute the query and print the result
+        List<List<String>> results = esql.executeQueryAndReturnResult(query);
 
-            // Convert input date to SQL date format
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-            java.util.Date date = dateFormat.parse(dateStr);
-            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-
-            // Construct the SQL query
-            String query = "SELECT Rooms.roomNumber, Rooms.price, CASE WHEN RoomBookings.bookingID IS NULL THEN 'Available' ELSE 'Booked' END AS availability " +
-                "FROM Rooms " +
-                "LEFT JOIN RoomBookings ON Rooms.hotelID = RoomBookings.hotelID AND Rooms.roomNumber = RoomBookings.roomNumber AND RoomBookings.bookingDate = '" + sqlDate + "' " +
-                "WHERE Rooms.hotelID = " + hotelID +
-                " ORDER BY Rooms.roomNumber";
-
-            // Execute the query and print the result
-            List < List < String >> results = esql.executeQueryAndReturnResult(query);
-
-            System.out.println("--------------------------------------------");
-            System.out.printf("| %-10s | %-10s | %-8s |\n", "Room Number", "Price", "Availability");
-            System.out.println("--------------------------------------------");
-            for (List < String > row: results) {
-                System.out.printf("| %-10s | $%-11s | %-8s |\n", row.get(0), row.get(1), row.get(2));
-            }
-            System.out.println("Total row(s): " + results.size());
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+        System.out.println("--------------------------------------------");
+        System.out.printf("| %-10s | %-10s | %-8s |\n", "Room Number", "Price", "Availability");
+        System.out.println("--------------------------------------------");
+        for (List<String> row : results) {
+            System.out.printf("| %-10s | $%-11s | %-8s |\n", row.get(0), row.get(1), row.get(2));
         }
-    }
-
-
-
+        System.out.println("Total row(s): " + results.size());
+     } catch (Exception e) {
+        System.err.println(e.getMessage());
+     }
+   }
     public static void bookRooms(Hotel esql) {
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -522,12 +523,23 @@ public static void viewHotels(Hotel esql) {
                 roomNumber = in .readLine();
             }
 
+            // Ask the user for the booking date
             System.out.print("Enter date (mm/dd/yyyy): ");
-            String bookingDate = in .readLine().trim();
+            String bookingDateStr = in .readLine().trim();
+
+            // Convert input date to LocalDate format
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+            LocalDate bookingDate = LocalDate.parse(bookingDateStr, formatter);
+
+            // Check if booking date is in the past
+            if (bookingDate.isBefore(LocalDate.now())) {
+                System.out.println("Sorry, you can only book rooms for today or future dates.");
+                return;
+            }
 
             // Convert input date to SQL date format
             SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-            java.util.Date date = dateFormat.parse(bookingDate);
+            java.util.Date date = dateFormat.parse(bookingDateStr);
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
             // Check if room is available on the given date
@@ -546,10 +558,9 @@ public static void viewHotels(Hotel esql) {
                 String price = result.get(0).get(0);
                 System.out.println("Room is available!");
 
-
                 // Insert the new booking into the RoomBookings table
                 String query = "INSERT INTO RoomBookings (customerID, hotelID, roomNumber, bookingDate) " +
-                    "VALUES ('" + curruserID + "', ' " + hotelID + " ', ' " + roomNumber + " ', '" + bookingDate + "');";
+                    "VALUES ('" + curruserID + "', ' " + hotelID + " ', ' " + roomNumber + " ', '" + bookingDateStr + "');";
                 esql.executeUpdate(query);
                 System.out.println("Booking successful! \nYour cost: $" + price);
             } else {
@@ -592,8 +603,7 @@ public static void viewHotels(Hotel esql) {
             System.err.println(e.getMessage());
         }
     }
-
-    public static void updateRoomInfo(Hotel esql) {
+     public static void updateRoomInfo(Hotel esql) {
         try {
             String userTypeQuery = "SELECT userType FROM Users WHERE userID = " + curruserID + ";";
             List < List < String >> userTypeResult = esql.executeQueryAndReturnResult(userTypeQuery);
@@ -639,7 +649,7 @@ public static void viewHotels(Hotel esql) {
             esql.executeUpdate(updateRoomQuery);
 
             // Log the room update in the RoomUpdatesLog table
-            String logUpdateQuery = "INSERT INTO RoomUpdatesLog (managerID, hotelID, roomNumber, updatedOn) VALUES (" + managerID + ", " + hotelID + ", " + roomNumber + ", CURRENT_TIMESTAMP());";
+            String logUpdateQuery = "INSERT INTO RoomUpdatesLog (managerID, hotelID, roomNumber, updatedOn) VALUES (" + managerID + ", " + hotelID + ", " + roomNumber + ", timezone('GMT', now()::timestamp) AT TIME ZONE 'US/Pacific');";
             esql.executeUpdate(logUpdateQuery);
 
             System.out.println("Room information updated successfully.");
@@ -681,7 +691,7 @@ public static void viewHotels(Hotel esql) {
         }
     }
 
-    public static void viewBookingHistoryofHotel(Hotel esql) {
+public static void viewBookingHistoryofHotel(Hotel esql) {
         try {
             String userTypeQuery = "SELECT userType FROM Users WHERE userID = " + curruserID + ";";
             List < List < String >> userTypeResult = esql.executeQueryAndReturnResult(userTypeQuery);
@@ -732,7 +742,7 @@ public static void viewHotels(Hotel esql) {
                     String customerName = booking.get(1);
                     String roomNumber = booking.get(3);
                     String bookingDate = booking.get(4);
-                    System.out.println("- Booking ID: " + bookingID + ", Customer Name: " + customerName + ", Room Number: " + roomNumber + ", Booking Date: " + bookingDate);
+                    System.out.println("- Booking ID: " + bookingID + ", Customer Name: " + customerName.trim() + ", Room Number: " + roomNumber + ", Booking Date: " + bookingDate);
                 }
             }
         } catch (Exception e) {
@@ -773,23 +783,27 @@ public static void viewHotels(Hotel esql) {
                 "LIMIT 5;";
             List < List < String >> regularCustomersResult = esql.executeQueryAndReturnResult(getRegularCustomersQuery);
 
-            // Print the regular customers
-            System.out.println("Top 5 regular customers for hotel " + hotelID + ":");
+            // Print the regular customers in a table format
+            System.out.println("------------------------------------------------");
+            System.out.printf("| %-20s | %-20s |\n", "Customer Name", "Number of Bookings");
+            System.out.println("------------------------------------------------");
             if (regularCustomersResult.isEmpty()) {
-                System.out.println("No regular customers found.");
+                System.out.println("| No regular customers found.                |");
             } else {
                 for (List < String > customer: regularCustomersResult) {
                     String customerName = customer.get(0);
                     String numBookings = customer.get(1);
-                    System.out.println("- Customer Name: " + customerName + ", Number of Bookings: " + numBookings);
+                    System.out.printf("| %-20s | %-20s |\n", customerName.trim(), numBookings);
                 }
             }
+            System.out.println("------------------------------------------------");
+            System.out.println("Total row(s): " + regularCustomersResult.size());
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
     }
 
-   
+
    public static void placeRoomRepairRequests(Hotel esql) 
    {
       try{
