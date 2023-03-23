@@ -904,10 +904,9 @@ public static void viewBookingHistoryofHotel(Hotel esql) {
         String inputDate;
 	Date currDate = new Date();
 
-	System.out.println("current date: " + currDate + "\n");
         do {
              try{   // Ask the user for the booking date
-                  System.out.print("\tEnter Date (mm/dd/yyyy): ");
+                  System.out.print("Enter Date (mm/dd/yyyy): ");
               
                   inputDate = in.readLine().trim();
                   DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
