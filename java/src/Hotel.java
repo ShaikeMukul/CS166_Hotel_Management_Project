@@ -806,19 +806,20 @@ public static void viewHotels(Hotel esql) {
 		   + "VALUES (" + companyID + ", " + hotelID + ", " + roomNumber + ", '" + repairDate + "')";
 
             esql.executeUpdate(query);
- 
+            /*
     	    // Retrieve repairID to INSERT to RoomRepairRequests
             String queryRepairID = "SELECT repairID FROM RoomRepairs " 
 		    + "WHERE companyID = " + companyID + " AND hotelID = " + hotelID + " AND roomNumber = " + roomNumber;
+            
             String repairID = esql.executeQueryAndReturnResult(queryRepairID).get(0).get(0);
             System.out.printf("Created repairID: '%s' %n", repairID);
 	    
 	    // Insert user(manageID) and repair ID  into the RoomRepairRequests table
-        
+            
 	    query = "INSERT INTO RoomRepairRequests (managerID, repairID) " +
                        "VALUES (" + curruserID + ", " + repairID + ")";
      	    esql.executeUpdate(query);
-       
+            */
       }catch(Exception e){
          System.err.println (e.getMessage ());
       }
@@ -831,7 +832,27 @@ public static void viewHotels(Hotel esql) {
 	String query = "SELECT companyID, hotelID, roomNumber, repairDate FROM RoomRepairs WHERE  RoomRepairs.repairID IN (SELECT repairID FROM RoomRepairRequests WHERE managerID = " + curruserID + ")";
 	int rowCount = esql.executeQueryAndPrintResult(query);
         System.out.println("Total row(s): " + rowCount);
-         
+        
+        List < List < String >> results = esql.executeQueryAndReturnResult(query);
+        if (results.isEmpty()) 
+	{
+          System.out.println("No bookings found for current customer.");
+        } 
+	else 
+	{
+          System.out.println("Room Repair History:");
+          System.out.println("------------------------------------------------------");
+          System.out.printf("| %-10s | %-10s | %-10s | %-10s |\n", "CompanyID", "HotelID", "Room Number", "RepairDate");
+          System.out.println("------------------------------------------------------");
+          for (List < String > row: results) 
+	  {
+            System.out.printf("| %-10s | %-10s | %-11s | %-10s |\n", row.get(0), row.get(1), row.get(2), row.get(3));
+          }
+          System.out.println("------------------------------------------------------");
+        }
+
+
+
       }catch(Exception e){
          System.err.println (e.getMessage ());
       }
