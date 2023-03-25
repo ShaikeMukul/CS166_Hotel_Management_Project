@@ -39,398 +39,438 @@ import java.time.format.DateTimeFormatter;
  */
 public class Hotel {
 
-   // reference to physical database connection.
-   private Connection _connection = null;
+    // reference to physical database connection.
+    private Connection _connection = null;
 
-   // handling the keyboard inputs through a BufferedReader
-   // This variable can be global for convenience.
-   static BufferedReader in = new BufferedReader(
-                                new InputStreamReader(System.in));
-   static String curruserID;
-   static String curruserType;
+    // handling the keyboard inputs through a BufferedReader
+    // This variable can be global for convenience.
+    static BufferedReader in = new BufferedReader(
+        new InputStreamReader(System.in));
+    static String curruserID;
+    static String curruserType;
 
-   /**
-    * Creates a new instance of Hotel 
-    *
-    * @param hostname the MySQL or PostgreSQL server hostname
-    * @param database the name of the database
-    * @param username the user name used to login to the database
-    * @param password the user login password
-    * @throws java.sql.SQLException when failed to make a connection.
-    */
-   public Hotel(String dbname, String dbport, String user, String passwd) throws SQLException {
+    /**
+     * Creates a new instance of Hotel 
+     *
+     * @param hostname the MySQL or PostgreSQL server hostname
+     * @param database the name of the database
+     * @param username the user name used to login to the database
+     * @param password the user login password
+     * @throws java.sql.SQLException when failed to make a connection.
+     */
+    public Hotel(String dbname, String dbport, String user, String passwd) throws SQLException {
 
-      System.out.print("Connecting to database...");
-      try{
-         // constructs the connection URL
-         String url = "jdbc:postgresql://localhost:" + dbport + "/" + dbname;
-         System.out.println ("Connection URL: " + url + "\n");
+        System.out.print("Connecting to database...");
+        try {
+            // constructs the connection URL
+            String url = "jdbc:postgresql://localhost:" + dbport + "/" + dbname;
+            System.out.println("Connection URL: " + url + "\n");
 
-         // obtain a physical connection
-         this._connection = DriverManager.getConnection(url, user, passwd);
-         System.out.println("Done");
-      }catch (Exception e){
-         System.err.println("Error - Unable to Connect to Database: " + e.getMessage() );
-         System.out.println("Make sure you started postgres on this machine");
-         System.exit(-1);
-      }//end catch
-   }//end Hotel
+            // obtain a physical connection
+            this._connection = DriverManager.getConnection(url, user, passwd);
+            System.out.println("Done");
+        } catch (Exception e) {
+            System.err.println("Error - Unable to Connect to Database: " + e.getMessage());
+            System.out.println("Make sure you started postgres on this machine");
+            System.exit(-1);
+        } //end catch
+    } //end Hotel
 
-   // Method to calculate euclidean distance between two latitude, longitude pairs. 
-   public double calculateDistance (double lat1, double long1, double lat2, double long2){
-      double t1 = (lat1 - lat2) * (lat1 - lat2);
-      double t2 = (long1 - long2) * (long1 - long2);
-      return Math.sqrt(t1 + t2); 
-   }
-   /**
-    * Method to execute an update SQL statement.  Update SQL instructions
-    * includes CREATE, INSERT, UPDATE, DELETE, and DROP.
-    *
-    * @param sql the input SQL string
-    * @throws java.sql.SQLException when update failed
-    */
-   public void executeUpdate (String sql) throws SQLException {
-      // creates a statement object
-      Statement stmt = this._connection.createStatement ();
+    // Method to calculate euclidean distance between two latitude, longitude pairs. 
+    public double calculateDistance(double lat1, double long1, double lat2, double long2) {
+        double t1 = (lat1 - lat2) * (lat1 - lat2);
+        double t2 = (long1 - long2) * (long1 - long2);
+        return Math.sqrt(t1 + t2);
+    }
+    /**
+     * Method to execute an update SQL statement.  Update SQL instructions
+     * includes CREATE, INSERT, UPDATE, DELETE, and DROP.
+     *
+     * @param sql the input SQL string
+     * @throws java.sql.SQLException when update failed
+     */
+    public void executeUpdate(String sql) throws SQLException {
+        // creates a statement object
+        Statement stmt = this._connection.createStatement();
 
-      // issues the update instruction
-      stmt.executeUpdate (sql);
+        // issues the update instruction
+        stmt.executeUpdate(sql);
 
-      // close the instruction
-      stmt.close ();
-   }//end executeUpdate
+        // close the instruction
+        stmt.close();
+    } //end executeUpdate
 
-   /**
-    * Method to execute an input query SQL instruction (i.e. SELECT).  This
-    * method issues the query to the DBMS and outputs the results to
-    * standard out.
-    *
-    * @param query the input query string
-    * @return the number of rows returned
-    * @throws java.sql.SQLException when failed to execute the query
-    */
-   public int executeQueryAndPrintResult (String query) throws SQLException {
-      // creates a statement object
-      Statement stmt = this._connection.createStatement ();
+    /**
+     * Method to execute an input query SQL instruction (i.e. SELECT).  This
+     * method issues the query to the DBMS and outputs the results to
+     * standard out.
+     *
+     * @param query the input query string
+     * @return the number of rows returned
+     * @throws java.sql.SQLException when failed to execute the query
+     */
+    public int executeQueryAndPrintResult(String query) throws SQLException {
+        // creates a statement object
+        Statement stmt = this._connection.createStatement();
 
-      // issues the query instruction
-      ResultSet rs = stmt.executeQuery (query);
+        // issues the query instruction
+        ResultSet rs = stmt.executeQuery(query);
 
-      /*
-       ** obtains the metadata object for the returned result set.  The metadata
-       ** contains row and column info.
-       */
-      ResultSetMetaData rsmd = rs.getMetaData ();
-      int numCol = rsmd.getColumnCount ();
-      int rowCount = 0;
+        /*
+         ** obtains the metadata object for the returned result set.  The metadata
+         ** contains row and column info.
+         */
+        ResultSetMetaData rsmd = rs.getMetaData();
+        int numCol = rsmd.getColumnCount();
+        int rowCount = 0;
 
-      // iterates through the result set and output them to standard out.
-      boolean outputHeader = true;
-      while (rs.next()){
-		 if(outputHeader){
-			for(int i = 1; i <= numCol; i++){
-			System.out.print(rsmd.getColumnName(i) + "\t");
-			}
-			System.out.println();
-			outputHeader = false;
-		 }
-         for (int i=1; i<=numCol; ++i)
-            System.out.print (rs.getString (i) + "\t");
-         System.out.println ();
-         ++rowCount;
-      }//end while
-      stmt.close ();
-      return rowCount;
-   }//end executeQuery
+        // iterates through the result set and output them to standard out.
+        boolean outputHeader = true;
+        while (rs.next()) {
+            if (outputHeader) {
+                for (int i = 1; i <= numCol; i++) {
+                    System.out.print(rsmd.getColumnName(i) + "\t");
+                }
+                System.out.println();
+                outputHeader = false;
+            }
+            for (int i = 1; i <= numCol; ++i)
+                System.out.print(rs.getString(i) + "\t");
+            System.out.println();
+            ++rowCount;
+        } //end while
+        stmt.close();
+        return rowCount;
+    } //end executeQuery
 
-   /**
-    * Method to execute an input query SQL instruction (i.e. SELECT).  This
-    * method issues the query to the DBMS and returns the results as
-    * a list of records. Each record in turn is a list of attribute values
-    *
-    * @param query the input query string
-    * @return the query result as a list of records
-    * @throws java.sql.SQLException when failed to execute the query
-    */
-   public List<List<String>> executeQueryAndReturnResult (String query) throws SQLException {
-      // creates a statement object
-      Statement stmt = this._connection.createStatement ();
+    /**
+     * Method to execute an input query SQL instruction (i.e. SELECT).  This
+     * method issues the query to the DBMS and returns the results as
+     * a list of records. Each record in turn is a list of attribute values
+     *
+     * @param query the input query string
+     * @return the query result as a list of records
+     * @throws java.sql.SQLException when failed to execute the query
+     */
+    public List < List < String >> executeQueryAndReturnResult(String query) throws SQLException {
+        // creates a statement object
+        Statement stmt = this._connection.createStatement();
 
-      // issues the query instruction
-      ResultSet rs = stmt.executeQuery (query);
+        // issues the query instruction
+        ResultSet rs = stmt.executeQuery(query);
 
-      /*
-       ** obtains the metadata object for the returned result set.  The metadata
-       ** contains row and column info.
-       */
-      ResultSetMetaData rsmd = rs.getMetaData ();
-      int numCol = rsmd.getColumnCount ();
-      int rowCount = 0;
+        /*
+         ** obtains the metadata object for the returned result set.  The metadata
+         ** contains row and column info.
+         */
+        ResultSetMetaData rsmd = rs.getMetaData();
+        int numCol = rsmd.getColumnCount();
+        int rowCount = 0;
 
-      // iterates through the result set and saves the data returned by the query.
-      boolean outputHeader = false;
-      List<List<String>> result  = new ArrayList<List<String>>();
-      while (rs.next()){
-        List<String> record = new ArrayList<String>();
-		for (int i=1; i<=numCol; ++i)
-			record.add(rs.getString (i));
-        result.add(record);
-      }//end while
-      stmt.close ();
-      return result;
-   }//end executeQueryAndReturnResult
+        // iterates through the result set and saves the data returned by the query.
+        boolean outputHeader = false;
+        List < List < String >> result = new ArrayList < List < String >> ();
+        while (rs.next()) {
+            List < String > record = new ArrayList < String > ();
+            for (int i = 1; i <= numCol; ++i)
+                record.add(rs.getString(i));
+            result.add(record);
+        } //end while
+        stmt.close();
+        return result;
+    } //end executeQueryAndReturnResult
 
-   /**
-    * Method to execute an input query SQL instruction (i.e. SELECT).  This
-    * method issues the query to the DBMS and returns the number of results
-    *
-    * @param query the input query string
-    * @return the number of rows returned
-    * @throws java.sql.SQLException when failed to execute the query
-    */
-   public int executeQuery (String query) throws SQLException {
-       // creates a statement object
-       Statement stmt = this._connection.createStatement ();
+    /**
+     * Method to execute an input query SQL instruction (i.e. SELECT).  This
+     * method issues the query to the DBMS and returns the number of results
+     *
+     * @param query the input query string
+     * @return the number of rows returned
+     * @throws java.sql.SQLException when failed to execute the query
+     */
+    public int executeQuery(String query) throws SQLException {
+        // creates a statement object
+        Statement stmt = this._connection.createStatement();
 
-       // issues the query instruction
-       ResultSet rs = stmt.executeQuery (query);
+        // issues the query instruction
+        ResultSet rs = stmt.executeQuery(query);
 
-       int rowCount = 0;
+        int rowCount = 0;
 
-       // iterates through the result set and count nuber of results.
-       while (rs.next()){
-          rowCount++;
-       }//end while
-       stmt.close ();
-       return rowCount;
-   }
+        // iterates through the result set and count nuber of results.
+        while (rs.next()) {
+            rowCount++;
+        } //end while
+        stmt.close();
+        return rowCount;
+    }
 
-   /**
-    * Method to fetch the last value from sequence. This
-    * method issues the query to the DBMS and returns the current
-    * value of sequence used for autogenerated keys
-    *
-    * @param sequence name of the DB sequence
-    * @return current value of a sequence
-    * @throws java.sql.SQLException when failed to execute the query
-    */
-   public int getCurrSeqVal(String sequence) throws SQLException {
-      Statement stmt = this._connection.createStatement ();
+    /**
+     * Method to fetch the last value from sequence. This
+     * method issues the query to the DBMS and returns the current
+     * value of sequence used for autogenerated keys
+     *
+     * @param sequence name of the DB sequence
+     * @return current value of a sequence
+     * @throws java.sql.SQLException when failed to execute the query
+     */
+    public int getCurrSeqVal(String sequence) throws SQLException {
+        Statement stmt = this._connection.createStatement();
 
-      ResultSet rs = stmt.executeQuery (String.format("Select currval('%s')", sequence));
-      if (rs.next())
-         return rs.getInt(1);
-      return -1;
-   }
+        ResultSet rs = stmt.executeQuery(String.format("Select currval('%s')", sequence));
+        if (rs.next())
+            return rs.getInt(1);
+        return -1;
+    }
 
-   public int getNewUserID(String sql) throws SQLException {
-      Statement stmt = this._connection.createStatement ();
-      ResultSet rs = stmt.executeQuery (sql);
-      if (rs.next())
-         return rs.getInt(1);
-      return -1;
-   }
-   /**
-    * Method to close the physical connection if it is open.
-    */
-   public void cleanup(){
-      try{
-         if (this._connection != null){
-            this._connection.close ();
-         }//end if
-      }catch (SQLException e){
-         // ignored.
-      }//end try
-   }//end cleanup
-   
-   /**
-    * The main execution method
-    *
-    * @param args the command line arguments this inclues the <mysql|pgsql> <login file>
-    */
-   public static void main (String[] args) {
-      if (args.length != 3) {
-         System.err.println (
-            "Usage: " +
-            "java [-classpath <classpath>] " +
-            Hotel.class.getName () +
-            " <dbname> <port> <user>");
-         return;
-      }//end if
+    public int getNewUserID(String sql) throws SQLException {
+        Statement stmt = this._connection.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+        if (rs.next())
+            return rs.getInt(1);
+        return -1;
+    }
+    /**
+     * Method to close the physical connection if it is open.
+     */
+    public void cleanup() {
+        try {
+            if (this._connection != null) {
+                this._connection.close();
+            } //end if
+        } catch (SQLException e) {
+            // ignored.
+        } //end try
+    } //end cleanup
 
-      Greeting();
-      Hotel esql = null;
-      try{
-         // use postgres JDBC driver.
-         Class.forName ("org.postgresql.Driver").newInstance ();
-         // instantiate the Hotel object and creates a physical
-         // connection.
-         String dbname = args[0];
-         String dbport = args[1];
-         String user = args[2];
-         esql = new Hotel (dbname, dbport, user, "");
+    /**
+     * The main execution method
+     *
+     * @param args the command line arguments this inclues the <mysql|pgsql> <login file>
+     */
+    public static void main(String[] args) {
+        if (args.length != 3) {
+            System.err.println(
+                "Usage: " +
+                "java [-classpath <classpath>] " +
+                Hotel.class.getName() +
+                " <dbname> <port> <user>");
+            return;
+        } //end if
 
-         boolean keepon = true;
-         while(keepon) {
-            // These are sample SQL statements
-            System.out.println("MAIN MENU");
-            System.out.println("---------");
-            System.out.println("1. Create user");
-            System.out.println("2. Log in");
-            System.out.println("9. < EXIT");
-            String authorisedUser = null;
-            switch (readChoice()){
-               case 1: CreateUser(esql); break;
-               case 2: authorisedUser = LogIn(esql); break;
-               case 9: keepon = false; break;
-               default : System.out.println("Unrecognized choice!"); break;
-            }//end switch
-            if (authorisedUser != null) {
-              boolean usermenu = true;
-              while(usermenu) 
-	      { 
+        Greeting();
+        Hotel esql = null;
+        try {
+            // use postgres JDBC driver.
+            Class.forName("org.postgresql.Driver").newInstance();
+            // instantiate the Hotel object and creates a physical
+            // connection.
+            String dbname = args[0];
+            String dbport = args[1];
+            String user = args[2];
+            esql = new Hotel(dbname, dbport, user, "");
+
+            boolean keepon = true;
+            while (keepon) {
+                // These are sample SQL statements
                 System.out.println("MAIN MENU");
                 System.out.println("---------");
-                System.out.println("1. View Hotels within 30 units");
-                System.out.println("2. View Rooms");
-                System.out.println("3. Book a Room");
-                System.out.println("4. View recent booking history");
-		if(curruserType.equals("manager"))
-		{
-                  //the following functionalities basically used by managers
-                  System.out.println("5. Update Room Information");
-                  System.out.println("6. View 5 recent Room Updates Info");
-                  System.out.println("7. View booking history of the hotel");
-                  System.out.println("8. View 5 regular Customers");
-                  System.out.println("9. Place room repair Request to a company");
-                  System.out.println("10. View room repair Requests history");
+                System.out.println("1. Create user");
+                System.out.println("2. Log in");
+                System.out.println("9. < EXIT");
+                String authorisedUser = null;
+                switch (readChoice()) {
+                    case 1:
+                        CreateUser(esql);
+                        break;
+                    case 2:
+                        authorisedUser = LogIn(esql);
+                        break;
+                    case 9:
+                        keepon = false;
+                        break;
+                    default:
+                        System.out.println("Unrecognized choice!");
+                        break;
+                } //end switch
+                if (authorisedUser != null) {
+                    boolean usermenu = true;
+                    while (usermenu) {
+                        System.out.println("Current User: " + curruserType + "\n");
+                        System.out.println("MAIN MENU");
+                        System.out.println("---------");
+                        System.out.println("1. View Hotels within 30 units");
+                        System.out.println("2. View Rooms");
+                        System.out.println("3. Book a Room");
+                        System.out.println("4. View recent booking history");
+                        if (curruserType.equals("manager")) {
+                            //the following functionalities basically used by managers
+                            System.out.println("5. Update Room Information");
+                            System.out.println("6. View 5 recent Room Updates Info");
+                            System.out.println("7. View booking history of the hotel");
+                            System.out.println("8. View 5 regular Customers");
+                            System.out.println("9. Place room repair Request to a company");
+                            System.out.println("10. View room repair Requests history");
+                        }
+                        System.out.println(".........................");
+                        System.out.println("20. Log out");
+
+                        if (curruserType.equals("customer")) {
+                            switch (readChoice()) {
+                                case 1:
+                                    viewHotels(esql);
+                                    break;
+                                case 2:
+                                    viewRooms(esql);
+                                    break;
+                                case 3:
+                                    bookRooms(esql);
+                                    break;
+                                case 4:
+                                    viewRecentBookingsfromCustomer(esql);
+                                    break;
+                                case 20:
+                                    usermenu = false;
+                                    break;
+                                default:
+                                    System.out.println("Unrecognized choice!");
+                                    break;
+                            }
+
+                        } else { //manager
+                            switch (readChoice()) {
+                                case 1:
+                                    viewHotels(esql);
+                                    break;
+                                case 2:
+                                    viewRooms(esql);
+                                    break;
+                                case 3:
+                                    bookRooms(esql);
+                                    break;
+                                case 4:
+                                    viewRecentBookingsfromCustomer(esql);
+                                    break;
+                                case 5:
+                                    updateRoomInfo(esql);
+                                    break;
+                                case 6:
+                                    viewRecentUpdates(esql);
+                                    break;
+                                case 7:
+                                    viewBookingHistoryofHotel(esql);
+                                    break;
+                                case 8:
+                                    viewRegularCustomers(esql);
+                                    break;
+                                case 9:
+                                    placeRoomRepairRequests(esql);
+                                    break;
+                                case 10:
+                                    viewRoomRepairHistory(esql);
+                                    break;
+                                case 20:
+                                    usermenu = false;
+                                    break;
+                                default:
+                                    System.out.println("Unrecognized choice!");
+                                    break;
+                            }
+                        }
+                    }
                 }
-                System.out.println(".........................");
-                System.out.println("20. Log out");
-                
-		if(curruserType.equals("customer"))
-		{
-		  switch(readChoice())
-		  {
-		    case 1: viewHotels(esql); break;
-                    case 2: viewRooms(esql); break;
-                    case 3: bookRooms(esql); break;
-                    case 4: viewRecentBookingsfromCustomer(esql); break;
-		    case 20: usermenu = false; break;
-                    default : System.out.println("Unrecognized choice!"); break;
-		  }
+            } //end while
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        } finally {
+            // make sure to cleanup the created table and close the connection.
+            try {
+                if (esql != null) {
+                    System.out.print("Disconnecting from database...");
+                    esql.cleanup();
+                    System.out.println("Done\n\nBye !");
+                } //end if
+            } catch (Exception e) {
+                // ignored.
+            } //end try
+        } //end try
+    } //end main
 
-		}
-		else
-		{//manager
-		  switch (readChoice())
-		  {
-                    case 1: viewHotels(esql); break;
-                    case 2: viewRooms(esql); break;
-                    case 3: bookRooms(esql); break;
-                    case 4: viewRecentBookingsfromCustomer(esql); break;
-                    case 5: updateRoomInfo(esql); break;
-                    case 6: viewRecentUpdates(esql); break;
-                    case 7: viewBookingHistoryofHotel(esql); break;
-                    case 8: viewRegularCustomers(esql); break;
-                    case 9: placeRoomRepairRequests(esql); break;
-                    case 10: viewRoomRepairHistory(esql); break;
-                    case 20: usermenu = false; break;
-                    default : System.out.println("Unrecognized choice!"); break;
-                  }
-                }
-            } }
-         }//end while
-      }catch(Exception e) {
-         System.err.println (e.getMessage ());
-      }finally{
-         // make sure to cleanup the created table and close the connection.
-         try{
-            if(esql != null) {
-               System.out.print("Disconnecting from database...");
-               esql.cleanup ();
-               System.out.println("Done\n\nBye !");
-            }//end if
-         }catch (Exception e) {
-            // ignored.
-         }//end try
-      }//end try
-   }//end main
+    public static void Greeting() {
+        System.out.println(
+            "\n\n*******************************************************\n" +
+            "              User Interface      	               \n" +
+            "*******************************************************\n");
+    } //end Greeting
 
-   public static void Greeting(){
-      System.out.println(
-         "\n\n*******************************************************\n" +
-         "              User Interface      	               \n" +
-         "*******************************************************\n");
-   }//end Greeting
+    /*
+     * Reads the users choice given from the keyboard
+     * @int
+     **/
+    public static int readChoice() {
+        int input;
+        // returns only if a correct value is given.
+        do {
+            System.out.print("Please make your choice: ");
+            try { // read the integer, parse it and break.
+                input = Integer.parseInt( in .readLine());
+                break;
+            } catch (Exception e) {
+                System.out.println("Your input is invalid!");
+                continue;
+            } //end try
+        } while (true);
+        return input;
+    } //end readChoice
 
-   /*
-    * Reads the users choice given from the keyboard
-    * @int
-    **/
-   public static int readChoice() {
-      int input;
-      // returns only if a correct value is given.
-      do {
-         System.out.print("Please make your choice: ");
-         try { // read the integer, parse it and break.
-            input = Integer.parseInt(in.readLine());
-            break;
-         }catch (Exception e) {
-            System.out.println("Your input is invalid!");
-            continue;
-         }//end try
-      }while (true);
-      return input;
-   }//end readChoice
-  
-   /*
-    * Creates a new user
-    **/
-   public static void CreateUser(Hotel esql){
-      try{
-         System.out.print("\tEnter name: ");
-         String name = in.readLine();
-         System.out.print("\tEnter password: ");
-         String password = in.readLine(); 
-         String type="Customer";
-			String query = String.format("INSERT INTO USERS (name, password, userType) VALUES ('%s','%s', '%s')", name, password, type);
-         esql.executeUpdate(query);
-         System.out.println ("User successfully created with userID = " + esql.getNewUserID("SELECT last_value FROM users_userID_seq"));
-         
-      }catch(Exception e){
-         System.err.println (e.getMessage ());
-      }
-   }//end CreateUser
+    /*
+     * Creates a new user
+     **/
+    public static void CreateUser(Hotel esql) {
+        try {
+            System.out.print("\tEnter name: ");
+            String name = in .readLine();
+            System.out.print("\tEnter password: ");
+            String password = in .readLine();
+            String type = "Customer";
+            String query = String.format("INSERT INTO USERS (name, password, userType) VALUES ('%s','%s', '%s')", name, password, type);
+            esql.executeUpdate(query);
+            System.out.println("User successfully created with userID = " + esql.getNewUserID("SELECT last_value FROM users_userID_seq"));
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    } //end CreateUser
 
 
-   /*
-    * Check log in credentials for an existing user
-    * @return User login or null is the user does not exist
-    **/
-   public static String LogIn(Hotel esql){
-      try{
-         System.out.print("\tEnter userID: ");
-         String userID = in.readLine();
-         System.out.print("\tEnter password: ");
-         String password = in.readLine();
+    /*
+     * Check log in credentials for an existing user
+     * @return User login or null is the user does not exist
+     **/
+    public static String LogIn(Hotel esql) {
+        try {
+            System.out.print("\tEnter userID: ");
+            String userID = in .readLine();
+            System.out.print("\tEnter password: ");
+            String password = in .readLine();
 
-         String query = String.format("SELECT * FROM USERS WHERE userID = '%s' AND password = '%s'", userID, password);
-         int userNum = esql.executeQuery(query);
-         if (userNum > 0){
-            query = String.format("SELECT userType FROM USERS WHERE userID = '%s'", userID);
-            curruserType = esql.executeQueryAndReturnResult(query).get(0).get(0).trim();
-            curruserID = userID;
-            return userID;}
-         return null;
-      }catch(Exception e){
-         System.err.println (e.getMessage ());
-         return null;
-      }
-   }//end
+            String query = String.format("SELECT * FROM USERS WHERE userID = '%s' AND password = '%s'", userID, password);
+            int userNum = esql.executeQuery(query);
+            if (userNum > 0) {
+                query = String.format("SELECT userType FROM USERS WHERE userID = '%s'", userID);
+                curruserType = esql.executeQueryAndReturnResult(query).get(0).get(0).trim();
+                curruserID = userID;
+                return userID;
+            }
+            return null;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
+    } //end
 
-   // Rest of the functions definition go in here
-   public static void viewHotels(Hotel esql) {
+    // Rest of the functions definition go in here
+    public static void viewHotels(Hotel esql) {
         try {
             System.out.print("Enter latitude: ");
             String latitudeStr = in .readLine();
@@ -456,49 +496,59 @@ public class Hotel {
             System.out.println("Total row(s): " + results.size());
         } catch (Exception e) {
             System.err.println(e.getMessage());
-          }
-   }
-
-   public static void viewRooms(Hotel esql) {
-     try {
-        // Ask user for hotelID and date
-        System.out.print("Enter hotel ID: ");
-        String hotelID = in.readLine().trim();
-
-        System.out.print("Enter date (mm/dd/yyyy): ");
-        String dateStr = in.readLine().trim();
-
-        // Convert input date to LocalDate object
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        LocalDate date = LocalDate.parse(dateStr, formatter);
-
-        // Check if booking date is in the past
-        if (date.isBefore(LocalDate.now())) {
-            System.out.println("Sorry, you can only view rooms for today or future dates.");
-            return;
         }
+    }
 
-        // Construct the SQL query
-        String query = "SELECT Rooms.roomNumber, Rooms.price, CASE WHEN RoomBookings.bookingID IS NULL THEN 'Available' ELSE 'Booked' END AS availability " +
-            "FROM Rooms " +
-            "LEFT JOIN RoomBookings ON Rooms.hotelID = RoomBookings.hotelID AND Rooms.roomNumber = RoomBookings.roomNumber AND RoomBookings.bookingDate = '" + date + "' " +
-            "WHERE Rooms.hotelID = " + hotelID +
-            " ORDER BY Rooms.roomNumber";
+    public static void viewRooms(Hotel esql) {
+        try {
+            // Ask user for hotelID and date
+            System.out.print("Enter hotel ID: ");
+            String hotelID = in .readLine().trim();
 
-        // Execute the query and print the result
-        List<List<String>> results = esql.executeQueryAndReturnResult(query);
+            // Check if the hotel ID is valid
+            while (esql.executeQueryAndPrintResult("SELECT hotelID FROM Hotel WHERE hotelID = " + hotelID + ";") == 0) {
+            System.out.print("\tInvalid Hotel ID. Enter hotel ID: ");
+            hotelID = in .readLine();
+            }
 
-        System.out.println("--------------------------------------------");
-        System.out.printf("| %-10s | %-10s | %-8s |\n", "Room Number", "Price", "Availability");
-        System.out.println("--------------------------------------------");
-        for (List<String> row : results) {
-            System.out.printf("| %-10s | $%-11s | %-8s |\n", row.get(0), row.get(1), row.get(2));
+            System.out.print("Enter date (mm/dd/yyyy): ");
+            String dateStr = in .readLine().trim();
+
+            // Convert input date to LocalDate object
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+            LocalDate date = LocalDate.parse(dateStr, formatter);
+
+            // Check if booking date is in the past
+            if (date.isBefore(LocalDate.now())) {
+                System.out.println("Sorry, you can only view rooms for today or future dates.");
+                return;
+            }
+
+            // Construct the SQL query
+            String query = "SELECT Rooms.roomNumber, Rooms.price, CASE WHEN RoomBookings.bookingID IS NULL THEN 'Available' ELSE 'Booked' END AS availability " +
+                "FROM Rooms " +
+                "LEFT JOIN RoomBookings ON Rooms.hotelID = RoomBookings.hotelID AND Rooms.roomNumber = RoomBookings.roomNumber AND RoomBookings.bookingDate = '" + date + "' " +
+                "WHERE Rooms.hotelID = " + hotelID +
+                " ORDER BY Rooms.roomNumber";
+
+            // Execute the query and print the result
+            List < List < String >> results = esql.executeQueryAndReturnResult(query);
+
+            System.out.println("--------------------------------------------");
+            System.out.printf("| %-10s | %-10s | %-8s |\n", "Room Number", "Price", "Availability");
+            System.out.println("--------------------------------------------");
+            for (List < String > row: results) {
+                System.out.printf("| %-10s | $%-11s | %-8s |\n", row.get(0), row.get(1), row.get(2));
+            }
+            System.out.println("Total row(s): " + results.size());
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
-        System.out.println("Total row(s): " + results.size());
-     } catch (Exception e) {
-        System.err.println(e.getMessage());
-     }
-   }
+    }
+
+
+
+
     public static void bookRooms(Hotel esql) {
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -603,7 +653,7 @@ public class Hotel {
             System.err.println(e.getMessage());
         }
     }
-     public static void updateRoomInfo(Hotel esql) {
+    public static void updateRoomInfo(Hotel esql) {
         try {
             String userTypeQuery = "SELECT userType FROM Users WHERE userID = " + curruserID + ";";
             List < List < String >> userTypeResult = esql.executeQueryAndReturnResult(userTypeQuery);
@@ -691,7 +741,7 @@ public class Hotel {
         }
     }
 
-public static void viewBookingHistoryofHotel(Hotel esql) {
+    public static void viewBookingHistoryofHotel(Hotel esql) {
         try {
             String userTypeQuery = "SELECT userType FROM Users WHERE userID = " + curruserID + ";";
             List < List < String >> userTypeResult = esql.executeQueryAndReturnResult(userTypeQuery);
@@ -803,21 +853,19 @@ public static void viewBookingHistoryofHotel(Hotel esql) {
         }
     }
 
-
-   public static void placeRoomRepairRequests(Hotel esql) 
-   {
-      try{
+    public static void placeRoomRepairRequests(Hotel esql) {
+        try {
 
             // Ask for the hotel ID, room, companyID, DATE
             //System.out.print("Enter hotel ID: ");
             int hotelID = isHotelManager(esql);
             int roomNumber = validRoom(esql, hotelID);
-	    int companyID = validCompany(esql);
-	    String repairDate = promptDate();
-            
-	    // INSERT INTO RoomRepairs table
-            String query = "INSERT INTO RoomRepairs ( companyID, hotelID, roomNumber, repairDate) "
-		   + "VALUES (" + companyID + ", " + hotelID + ", " + roomNumber + ", '" + repairDate + "')";
+            int companyID = validCompany(esql);
+            String repairDate = promptDate();
+
+            // INSERT INTO RoomRepairs table
+            String query = "INSERT INTO RoomRepairs ( companyID, hotelID, roomNumber, repairDate) " +
+                "VALUES (" + companyID + ", " + hotelID + ", " + roomNumber + ", '" + repairDate + "')";
 
             esql.executeUpdate(query);
             /*
@@ -834,149 +882,125 @@ public static void viewBookingHistoryofHotel(Hotel esql) {
                        "VALUES (" + curruserID + ", " + repairID + ")";
      	    esql.executeUpdate(query);
             */
-      }catch(Exception e){
-         System.err.println (e.getMessage ());
-      }
-   }
-
-   public static void viewRoomRepairHistory(Hotel esql) 
-    {
-       try{
-	
-	String query = "SELECT companyID, hotelID, roomNumber, repairDate FROM RoomRepairs WHERE  RoomRepairs.repairID IN (SELECT repairID FROM RoomRepairRequests WHERE managerID = " + curruserID + ")";
-        
-        List < List < String >> results = esql.executeQueryAndReturnResult(query);
-        if (results.isEmpty()) 
-	{
-          System.out.println("No bookings found for current customer.");
-        } 
-	else 
-	{
-          System.out.println("Room Repair History:");
-          System.out.println("------------------------------------------------------");
-          System.out.printf("| %-10s | %-10s | %-10s | %-10s |\n", "CompanyID", "HotelID", "Room Number", "RepairDate");
-          System.out.println("------------------------------------------------------");
-          for (List < String > row: results) 
-	  {
-            System.out.printf("| %-10s | %-10s | %-11s | %-10s |\n", row.get(0), row.get(1), row.get(2), row.get(3));
-          }
-          System.out.println("------------------------------------------------------");
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
+    }
 
+    public static void viewRoomRepairHistory(Hotel esql) {
+        try {
 
+            String query = "SELECT companyID, hotelID, roomNumber, repairDate FROM RoomRepairs WHERE  RoomRepairs.repairID IN (SELECT repairID FROM RoomRepairRequests WHERE managerID = " + curruserID + ")";
 
-      }catch(Exception e){
-         System.err.println (e.getMessage ());
-      }
-   } 
+            List < List < String >> results = esql.executeQueryAndReturnResult(query);
+            if (results.isEmpty()) {
+                System.out.println("No bookings found for current customer.");
+            } else {
+                System.out.println("Room Repair History:");
+                System.out.println("------------------------------------------------------");
+                System.out.printf("| %-10s | %-10s | %-10s | %-10s |\n", "CompanyID", "HotelID", "Room Number", "RepairDate");
+                System.out.println("------------------------------------------------------");
+                for (List < String > row: results) {
+                    System.out.printf("| %-10s | %-10s | %-11s | %-10s |\n", row.get(0), row.get(1), row.get(2), row.get(3));
+                }
+                System.out.println("------------------------------------------------------");
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
 
- /*================= HELPER FUNC ====================*/
+    /*================= HELPER FUNC ====================*/
 
- public static int isHotelManager(Hotel esql)
-  {
-    	  
+    public static int isHotelManager(Hotel esql) {
+
         int hotelID;
-        do
-	{ // Ask for the hotel ID and room number to update
-            try{
-		System.out.print("Enter hotel ID: ");
-                hotelID = Integer.parseInt(in.readLine());
+        do { // Ask for the hotel ID and room number to update
+            try {
+                System.out.print("Enter hotel ID: ");
+                hotelID = Integer.parseInt( in .readLine());
 
                 // Check if the manager manages the specified hotel
                 String checkManagerQuery = "SELECT * FROM Hotel WHERE hotelID = " + hotelID + " AND managerUserID = " + curruserID + ";";
                 int numRows = esql.executeQuery(checkManagerQuery);
-                if (numRows == 0)
-                {
-                  System.out.println("You don't manage the specified hotel.\n");
+                if (numRows == 0) {
+                    System.out.println("You don't manage the specified hotel.\n");
 
-                }
-                else
-                  return hotelID;
-	    }
-            catch(Exception e){
-                System.err.println (e.getMessage ());
-            }     
-        }while(true);
-  }
-
-   public static String promptDate()
-   {
-        String inputDate;
-	Date currDate = new Date();
-
-        do {
-             try{   // Ask the user for the booking date
-                  System.out.print("Enter Date (mm/dd/yyyy): ");
-              
-                  inputDate = in.readLine().trim();
-                  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-                  LocalDate formattedDate = LocalDate.parse(inputDate, formatter);
-		  if(formattedDate.isBefore(LocalDate.now()))
-		  {
-                    System.out.print("\t The date you entered is not valid. Please enter a date that has not yet passed.  \n");
-                    continue;
-		  }
-		  else
-                    break;
-             }catch (Exception e) {
-                System.err.println(e.getMessage());
-                continue;
-             }
-        }while(true);
-        return inputDate;
-   }
-
-   public static int validRoom(Hotel esql, int hotelID)
-   {
-	   int roomNumber;
-	do{    
-	    try{
-		 System.out.print("Enter room number: ");
-                 roomNumber = Integer.parseInt( in.readLine());
-
-                 // Get the current room information
-                 String getRoomQuery = "SELECT * FROM Rooms WHERE hotelID = " + hotelID + " AND roomNumber = " + roomNumber + ";";
-                 List < List < String >> roomResult = esql.executeQueryAndReturnResult(getRoomQuery);
-                 if (roomResult.isEmpty()) 
-		 {
-                    System.out.println("Room not found.");
-		    continue;
-                 }
-		 else 
-	            return roomNumber;
-	    } catch ( Exception e){
-		System.err.println(e.getMessage());
-	    }
-	}while(true);
-   }  
-
-   public static int validCompany(Hotel esql)
-   {
-           int companyID;
-        do{
-            try{
-                 System.out.print("Enter Company ID: ");
-                 companyID = Integer.parseInt( in.readLine());
-
-                 // Get the current room information
-                 String getCompanyQuery = "SELECT * FROM MaintenanceCompany WHERE CompanyID = " + companyID + ";";
-                 List < List < String >> roomResult = esql.executeQueryAndReturnResult(getCompanyQuery);
-                 if (roomResult.isEmpty())
-                 {
-                    System.out.println("Room not found.");
-                    continue;
-                 }
-                 else
-                    return companyID;
-            } catch ( Exception e){
+                } else
+                    return hotelID;
+            } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
-        }while(true);
-   }
+        } while (true);
+    }
 
-  
-   /*============== END HELPER FUNC ==========================*/
+    public static String promptDate() {
+        String inputDate;
+        Date currDate = new Date();
+        do {
+            try { // Ask the user for the booking date
+                System.out.print("\tEnter Date (mm/dd/yyyy): ");
+
+                inputDate = in .readLine().trim();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+                LocalDate formattedDate = LocalDate.parse(inputDate, formatter);
+                if (formattedDate.isBefore(LocalDate.now())) {
+                    System.out.print("\t The date you entered is not valid. Please enter a date that has not yet passed.  \n");
+                    continue;
+                } else
+                    break;
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+                continue;
+            }
+        } while (true);
+        return inputDate;
+    }
+
+    public static int validRoom(Hotel esql, int hotelID) {
+        int roomNumber;
+        do {
+            try {
+                System.out.print("Enter room number: ");
+                roomNumber = Integer.parseInt( in .readLine());
+
+                // Get the current room information
+                String getRoomQuery = "SELECT * FROM Rooms WHERE hotelID = " + hotelID + " AND roomNumber = " + roomNumber + ";";
+                List < List < String >> roomResult = esql.executeQueryAndReturnResult(getRoomQuery);
+                if (roomResult.isEmpty()) {
+                    System.out.println("Room not found.");
+                    continue;
+                } else
+                    return roomNumber;
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
+        } while (true);
+    }
+
+    public static int validCompany(Hotel esql) {
+        int companyID;
+        do {
+            try {
+                System.out.print("Enter Company ID: ");
+                companyID = Integer.parseInt( in .readLine());
+
+                // Get the current room information
+                String getCompanyQuery = "SELECT * FROM MaintenanceCompany WHERE CompanyID = " + companyID + ";";
+                List < List < String >> roomResult = esql.executeQueryAndReturnResult(getCompanyQuery);
+                if (roomResult.isEmpty()) {
+                    System.out.println("Room not found.");
+                    continue;
+                } else
+                    return companyID;
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
+        } while (true);
+    }
 
 
-}//end Hotel
+    /*============== END HELPER FUNC ==========================*/
 
+
+} //end Hotel
