@@ -1,5 +1,8 @@
 # CS166_Hotel_Management_Project
 
+#### Contribution
+Shaike Mukul and Vincent Trejo
+
 ### How to Get Started
 Start by following the path, `cd CS166_Hotel_Management_Project/` 
 
