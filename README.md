@@ -1,10 +1,11 @@
 # CS166_Hotel_Management_Project
 
-#### Contribution
+#### Contributors
 Shaike Mukul and Vincent Trejo
 
 ### Project ER diagram
-![ER Diagram](https://user-images.githubusercontent.com/10952398/227804313-7395c80a-3c09-489c-8ea9-38e0df224735.PNG)
+![ER Diagram](https://user-images.githubusercontent.com/10952398/227807724-4a382330-5443-4a71-817b-9d52bd7f34c2.jpg)
+
 
 ### How to Get Started
 Start by following the path, 
