@@ -3,8 +3,13 @@
 #### Contribution
 Shaike Mukul and Vincent Trejo
 
+### Project ER diagram
+![ER Diagram](https://user-images.githubusercontent.com/10952398/227804313-7395c80a-3c09-489c-8ea9-38e0df224735.PNG)
+
 ### How to Get Started
-Start by following the path, `cd CS166_Hotel_Management_Project/` 
+Start by following the path, 
+
+    cd CS166_Hotel_Management_Project/
 
 Then start the server by running the command,
 
